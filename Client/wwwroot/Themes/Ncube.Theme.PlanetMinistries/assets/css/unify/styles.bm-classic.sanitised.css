@@ -1,0 +1,106 @@
+/* Unify v2.6 Sanitised & Scoped Styles for Planet Ministries
+   Bootstrap 4 resets, global :root, html, body, and native Bootstrap duplicates stripped. */
+
+/* Animations */
+@keyframes pmFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pmSlideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Theme-Scoped Visual Components */
+.pm-theme .u-header {
+    position: relative;
+    z-index: 100;
+}
+
+.pm-theme .u-header__section {
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.pm-theme .u-shadow-v1 {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.pm-theme .u-btn-primary {
+    background-color: var(--pm-primary);
+    border-color: var(--pm-primary);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pm-theme .u-btn-primary:hover {
+    background-color: #154e86;
+    border-color: #154e86;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.pm-theme .u-btn-secondary {
+    background-color: var(--pm-secondary);
+    border-color: var(--pm-secondary);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pm-theme .u-btn-secondary:hover {
+    background-color: #5ca123;
+    border-color: #5ca123;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.pm-theme .g-bg-secondary {
+    background-color: var(--pm-bg-light) !important;
+}
+
+.pm-theme .g-color-primary {
+    color: var(--pm-primary) !important;
+}
+
+.pm-theme .g-color-secondary {
+    color: var(--pm-secondary) !important;
+}
+
+.pm-theme .g-brd-around {
+    border: 1px solid var(--pm-border-color);
+}
+
+.pm-theme .g-py-100 {
+    padding-top: 6.25rem;
+    padding-bottom: 6.25rem;
+}
+
+.pm-theme .g-py-50 {
+    padding-top: 3.125rem;
+    padding-bottom: 3.125rem;
+}
+
+/* Media Query Scoping */
+@media (max-width: 767.98px) {
+    .pm-theme .g-py-100 {
+        padding-top: 3.125rem;
+        padding-bottom: 3.125rem;
+    }
+}

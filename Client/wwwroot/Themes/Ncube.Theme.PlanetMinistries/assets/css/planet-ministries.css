@@ -1,13 +1,14 @@
 /* --------------------------------------------------------------------------
    Planet Ministries Authoritative Customisation Layer
    -------------------------------------------------------------------------- */
-
+/* Planet Ministries Design Tokens & Scoped Theme Root */
 .pm-theme {
-    /* Design Tokens */
     --pm-primary: #1e70bf;
     --pm-secondary: #72c02c;
     --pm-text-color: #555555;
     --pm-heading-color: #333333;
+    --pm-border-color: #e5e5e5;
+    --pm-bg-light: #f7f7f7;
     --pm-font-family:
         system-ui,
         -apple-system,
@@ -24,6 +25,25 @@
 
 .pm-theme .pm-main-content {
     min-height: 1px;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+}
+
+/* Base typography within theme scope */
+.pm-theme h1,
+.pm-theme h2,
+.pm-theme h3,
+.pm-theme h4,
+.pm-theme h5,
+.pm-theme h6 {
+    color: var(--pm-heading-color);
+    font-weight: 600;
+}
+
+.pm-theme a {
+    color: var(--pm-primary);
+    text-decoration: none;
+}
+
+.pm-theme a:hover {
+    color: #154e86;
+    text-decoration: underline;
 }
