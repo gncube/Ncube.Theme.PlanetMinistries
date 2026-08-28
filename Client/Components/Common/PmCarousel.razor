@@ -1,0 +1,83 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Common
+
+<div id="@CarouselId" class="carousel slide @(Fade ? "carousel-fade" : string.Empty)"
+     data-bs-ride="@(AutoPlay ? "carousel" : "false")" aria-roledescription="carousel">
+    @if (ShowIndicators && Items.Count > 1)
+    {
+        <div class="carousel-indicators">
+            @for (var i = 0; i < Items.Count; i++)
+            {
+                var index = i;
+                <button type="button" data-bs-target="#@CarouselId" data-bs-slide-to="@index"
+                        class="@(index == ActiveIndex ? "active" : string.Empty)"
+                        aria-current="@(index == ActiveIndex ? "true" : "false")" aria-label="Slide @(index + 1)">
+                </button>
+            }
+        </div>
+    }
+
+    <div class="carousel-inner">
+        @for (var i = 0; i < Items.Count; i++)
+        {
+            var item = Items[i];
+            var isItemActive = i == ActiveIndex;
+            <div class="carousel-item @(isItemActive ? "active" : string.Empty)" aria-roledescription="slide"
+                 aria-label="@($"{i + 1} of {Items.Count}")">
+                @if (ItemTemplate is not null)
+                {
+                    @ItemTemplate(item)
+                }
+                else
+                {
+                    <div class="d-block w-100 p-5 bg-light text-center">
+                        <h5>@item.Title</h5>
+                        @if (!string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            <p class="text-muted">@item.Description</p>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (ShowControls && Items.Count > 1)
+    {
+        <button class="carousel-control-prev" type="button" data-bs-target="#@CarouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#@CarouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string CarouselId { get; set; } = $"pm-carousel-{Guid.NewGuid():N}";
+
+    [Parameter]
+    public IReadOnlyList<CarouselItemModel> Items { get; set; } = [];
+
+    [Parameter]
+    public int ActiveIndex { get; set; }
+
+    [Parameter]
+    public bool ShowIndicators { get; set; } = true;
+
+    [Parameter]
+    public bool ShowControls { get; set; } = true;
+
+    [Parameter]
+    public bool AutoPlay { get; set; }
+
+    [Parameter]
+    public bool Fade { get; set; }
+
+    [Parameter]
+    public RenderFragment<CarouselItemModel>? ItemTemplate { get; set; }
+
+    public sealed record CarouselItemModel(string Title, string? Description = null, string? ImageUrl = null);
+}
