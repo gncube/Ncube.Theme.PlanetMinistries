@@ -1,9 +1,10 @@
 @namespace Ncube.Theme.PlanetMinistries
-
 @inherits MenuBase
 
 @if (MenuPages.Any())
 {
-    <NavMenuItems ParentPage="null" Pages="MenuPages" />
-    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    <nav id="navmenu" class="navmenu">
+        <NavMenuItems ParentPage="null" Pages="MenuPages" />
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
 }

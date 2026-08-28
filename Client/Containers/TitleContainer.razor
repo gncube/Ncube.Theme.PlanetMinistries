@@ -2,7 +2,7 @@
 @inherits ContainerBase
 @inject ISettingService SettingService
 
-<div class="unify-title-container">
+<div class="unify-title-container" data-aos="@_animate">
     @if (_showTitle && !string.IsNullOrEmpty(ModuleState.Title) && ModuleState.Title != "-")
     {
         <div class="unify-title-header">
@@ -19,16 +19,19 @@
     public override string Name => "Unify Title Container";
 
     private bool _showTitle = true;
+    private string _animate = "fade-up";
 
     protected override void OnParametersSet()
     {
         try
         {
             _showTitle = bool.Parse(SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerTitleSetting, "true"));
+            _animate = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerAnimateSetting, "fade-up");
         }
         catch
         {
             _showTitle = true;
+            _animate = "fade-up";
         }
     }
 }

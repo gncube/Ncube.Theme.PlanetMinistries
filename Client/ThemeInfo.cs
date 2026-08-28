@@ -10,7 +10,7 @@ public sealed class ThemeInfo : ITheme
     public Oqtane.Models.Theme Theme => new()
     {
         Name = "Planet Ministries Unify Classic Theme",
-        Version = "1.0.0",
+        Version = "2.0.0",
         ThemeName = typeof(ThemeInfo).Namespace,
         Resources =
         [
