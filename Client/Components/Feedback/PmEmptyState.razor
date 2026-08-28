@@ -1,0 +1,45 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Feedback
+
+<div class="pm-empty-state text-center @Class" role="region" aria-label="@Title">
+    <div class="mb-3">
+        <i class="@IconCssClass text-muted display-4" aria-hidden="true"></i>
+    </div>
+    <h3 class="h5 mb-2">@Title</h3>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 480px;">@Message</p>
+
+    @if (!string.IsNullOrWhiteSpace(ActionUrl) && !string.IsNullOrWhiteSpace(ActionText))
+    {
+        <a href="@ActionUrl" class="btn btn-primary">
+            @ActionText
+        </a>
+    }
+    else if (OnActionClick.HasDelegate && !string.IsNullOrWhiteSpace(ActionText))
+    {
+        <button type="button" class="btn btn-primary" @onclick="OnActionClick">
+            @ActionText
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Title { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Message { get; set; }
+
+    [Parameter]
+    public string IconCssClass { get; set; } = "bi bi-inbox";
+
+    [Parameter]
+    public string? ActionText { get; set; }
+
+    [Parameter]
+    public string? ActionUrl { get; set; }
+
+    [Parameter]
+    public EventCallback OnActionClick { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+}
