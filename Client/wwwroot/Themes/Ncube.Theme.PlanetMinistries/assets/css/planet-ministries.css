@@ -27,23 +27,101 @@
     min-height: 1px;
 }
 
-/* Base typography within theme scope */
-.pm-theme h1,
-.pm-theme h2,
-.pm-theme h3,
-.pm-theme h4,
-.pm-theme h5,
-.pm-theme h6 {
-    color: var(--pm-heading-color);
-    font-weight: 600;
+/* Header & Navigation Styles */
+.pm-theme .pm-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgb(0 0 0 / 8%);
+    position: relative;
+    z-index: 100;
 }
 
-.pm-theme a {
-    color: var(--pm-primary);
+.pm-theme .pm-header-inner {
+    min-height: 72px;
+}
+
+.pm-theme .pm-navigation-item {
+    position: relative;
+}
+
+.pm-theme .pm-navigation-link {
+    color: var(--pm-text-color);
+    font-weight: 500;
     text-decoration: none;
+    transition: color 0.2s ease-in-out;
 }
 
-.pm-theme a:hover {
-    color: #154e86;
-    text-decoration: underline;
+.pm-theme .pm-navigation-link:hover,
+.pm-theme .pm-navigation-link:focus-visible,
+.pm-theme .pm-navigation-link-active {
+    color: var(--pm-primary);
+}
+
+.pm-theme .pm-navigation-dropdown-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.pm-theme .pm-dropdown-menu {
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    border-radius: 4px;
+    border: 1px solid var(--pm-border-color);
+    z-index: 105;
+}
+
+.pm-theme .pm-navigation-link:focus-visible,
+.pm-theme .pm-navigation-toggle:focus-visible,
+.pm-theme .btn-close:focus-visible {
+    outline: 2px solid var(--pm-primary);
+    outline-offset: 3px;
+}
+
+/* Mobile Navigation Off-Canvas Drawer */
+.pm-theme .pm-mobile-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1050;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0.3s ease;
+}
+
+.pm-theme .pm-mobile-navigation.pm-mobile-navigation-open {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.pm-theme .pm-mobile-nav-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pm-theme .pm-mobile-navigation.pm-mobile-navigation-open .pm-mobile-nav-backdrop {
+    opacity: 1;
+}
+
+.pm-theme .pm-mobile-nav-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    max-width: 80vw;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.pm-theme .pm-mobile-navigation.pm-mobile-navigation-open .pm-mobile-nav-panel {
+    transform: translateX(0);
 }

@@ -1,9 +1,14 @@
-@namespace Ncube.Theme.PlanetMinistries
+#nullable enable
+@namespace Ncube.Theme.PlanetMinistries.Client.Themes
 @inherits ThemeBase
 
 <div class="pm-theme">
+    <PmHeader PageState="@PageState" />
+
     <main class="pm-main-content">
-        <Pane Name="Content" />
+        <div class="container">
+            <Pane Name="Content" />
+        </div>
     </main>
 </div>
 

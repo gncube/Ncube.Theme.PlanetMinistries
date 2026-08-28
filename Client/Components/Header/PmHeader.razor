@@ -1,0 +1,33 @@
+#nullable enable
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+
+<header class="pm-header" role="banner">
+    <div class="container">
+        <div class="pm-header-inner d-flex align-items-center justify-content-between">
+            <PmBrand SiteName="@(PageState?.Site?.Name ?? "Planet Ministries")" />
+
+            <PmNavigation PageState="@PageState" />
+
+            <div class="d-lg-none">
+                <button type="button" class="pm-navigation-toggle btn btn-link p-2"
+                        aria-expanded="@(_isMobileNavOpen ? "true" : "false")" aria-controls="pm-mobile-navigation"
+                        aria-label="Toggle navigation" @onclick="ToggleMobileNavigation">
+                    <i class="bi bi-list fs-2" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <PmMobileNavigation PageState="@PageState" IsOpen="@_isMobileNavOpen" OnClose="CloseMobileNavigation" />
+</header>
+
+@code {
+    [Parameter]
+    public PageState? PageState { get; set; }
+
+    private bool _isMobileNavOpen;
+
+    private void ToggleMobileNavigation() => _isMobileNavOpen = !_isMobileNavOpen;
+
+    private void CloseMobileNavigation() => _isMobileNavOpen = false;
+}
