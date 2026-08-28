@@ -2,7 +2,7 @@
 
 [6.1.1](https://github.com/oqtane/oqtane.theme.corporate/releases/tag/v6.1.1) was released on Mar 14, 2025.
 
-# Oqtane.Theme.Corporate
+# Ncube.Theme.PlanetMinistries
 
 A clean and modern responsive theme based on Bootstrap 5.3.3. This theme supports both static and interactive render modes and can help you create a professional looking website for your business in no time. It also includes professionally styled content so you can include sections for Clients, About Us, Why Us, Skills, Services, Call To Action, Portfolio, Team, Pricing, Testimonials, and FAQs.
 

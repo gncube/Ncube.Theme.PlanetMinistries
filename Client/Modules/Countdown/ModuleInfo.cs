@@ -10,7 +10,7 @@ namespace Oqtane.Module.Corporate.Countdown
             Name = "Corporate Theme - Countdown",
             Description = "Add a Countdown section to your Corporate Theme",
             Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate"
+            PackageName = "Ncube.Theme.PlanetMinistries"
         };
     }
 }

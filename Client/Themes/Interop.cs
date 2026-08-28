@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
-namespace Oqtane.Theme.Corporate
+namespace Ncube.Theme.PlanetMinistries
 {
     public class Interop
     {

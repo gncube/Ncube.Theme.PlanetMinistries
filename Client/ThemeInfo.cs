@@ -3,7 +3,7 @@ using Oqtane.Models;
 using Oqtane.Themes;
 using Oqtane.Shared;
 
-namespace Oqtane.Theme.Corporate
+namespace Ncube.Theme.PlanetMinistries
 {
     public class ThemeInfo : ITheme
     {
@@ -11,9 +11,9 @@ namespace Oqtane.Theme.Corporate
         {
             Name = "Corporate Theme",
             Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate",
-            ThemeSettingsType = "Oqtane.Theme.Corporate.ThemeSettings, Oqtane.Theme.Corporate.Client.Oqtane",
-            ContainerSettingsType = "Oqtane.Theme.Corporate.ContainerSettings, Oqtane.Theme.Corporate.Client.Oqtane",
+            PackageName = "Ncube.Theme.PlanetMinistries",
+            ThemeSettingsType = "Ncube.Theme.PlanetMinistries.ThemeSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
+            ContainerSettingsType = "Ncube.Theme.PlanetMinistries.ContainerSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
             Resources = new List<Resource>()
             {
                 // Fonts

@@ -10,7 +10,7 @@ namespace Oqtane.Module.Corporate.Team
             Name = "Corporate Theme - Team",
             Description = "Add a Team section to your Corporate Theme",
             Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate"
+            PackageName = "Ncube.Theme.PlanetMinistries"
         };
     }
 }

@@ -6,9 +6,9 @@
     <Authors>Oqtane Labs Inc</Authors>
     <Company>Oqtane Labs Inc</Company>
     <Description>Corporate Theme for Oqtane</Description>
-    <Product>Oqtane.Theme.Corporate</Product>
+    <Product>Ncube.Theme.PlanetMinistries</Product>
     <Copyright>Oqtane Labs Inc</Copyright>
-    <AssemblyName>Oqtane.Theme.Corporate.Client.Oqtane</AssemblyName>
+    <AssemblyName>Ncube.Theme.PlanetMinistries.Client.Oqtane</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

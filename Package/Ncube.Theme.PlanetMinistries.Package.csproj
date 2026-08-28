@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Oqtane.Theme.Corporate.Client.csproj" />
+    <ProjectReference Include="..\Client\Ncube.Theme.PlanetMinistries.Client.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
