@@ -46,21 +46,21 @@
 </div>
 
 @code {
-    private string _layout = "";
-    private string _title = "";
-    private string _animate = "";
+    private string _layout = "standard";
+    private string _title = "true";
+    private string _animate = "fade-up";
 
     protected override void OnInitialized()
     {
         try
         {
-            _layout = SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Layout", "");
-            _title = SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Title", "true");
-            _animate = SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Animate", "fade-up");
+            _layout = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerLayoutSetting, string.Empty);
+            _title = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerTitleSetting, "true");
+            _animate = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerAnimateSetting, "fade-up");
 
             if (string.IsNullOrEmpty(_layout))
             {
-                _layout = SettingService.GetSetting(PageState.Page.Settings, GetType().Namespace + ":Layout", "standard");
+                _layout = SettingService.GetSetting(PageState.Page.Settings, ThemeConstants.ContainerLayoutSetting, "standard");
             }
         }
         catch (Exception ex)
@@ -73,10 +73,10 @@
     {
         try
         {
-			var settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Layout", _layout);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Title", _title);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Animate", _animate);
+            var settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
+            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerLayoutSetting, _layout);
+            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerTitleSetting, _title);
+            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerAnimateSetting, _animate);
             await SettingService.UpdateModuleSettingsAsync(settings, ModuleState.ModuleId);
         }
         catch (Exception ex)

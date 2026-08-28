@@ -24,8 +24,7 @@
     {
         try
         {
-            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries";
-            _showTitle = bool.Parse(SettingService.GetSetting(ModuleState.Settings, $"{ns}:Title", "true"));
+            _showTitle = bool.Parse(SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerTitleSetting, "true"));
         }
         catch
         {
