@@ -6,56 +6,58 @@
 @inject IStringLocalizer<Default> Localizer
 
 <div class="u-wrapper d-flex flex-column min-vh-100">
-    <!-- Unify Classic Utility Top Bar -->
-    <div class="u-top-bar py-2">
-        <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
-            <div class="u-top-contacts d-flex align-items-center gap-3">
-                <span class="small"><i class="bi bi-envelope me-1"></i> contact@planetministries.org</span>
-            </div>
-            <div class="u-top-auth d-flex align-items-center gap-2">
-                @if (_search)
-                {
-                    <Search AllowTextInput="false" />
-                }
-                <UserProfile />
-                <Login ShowLogin="@_login" />
-                <ControlPanel />
+    <!-- Unify Header Section -->
+    <header id="js-header" class="u-header u-header--static u-shadow-v19">
+        <!-- Top Bar with Search & Oqtane Controls -->
+        <div class="u-header__section u-top-bar-custom py-2">
+            <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
+                <div class="brand-logo-area d-flex align-items-center">
+                    <a href="@PageState.Alias.Path" class="navbar-brand py-0">
+                        @if (PageState.Site.LogoFileId is not null)
+                        {
+                            <img class="brand-logo-img img-fluid"
+                                 src="@Utilities.FileUrl(PageState.Alias, PageState.Site.LogoFileId.Value)"
+                                 alt="@PageState.Site.Name" />
+                        }
+                        else if (!string.IsNullOrWhiteSpace(_logoUrl))
+                        {
+                            <img class="brand-logo-img img-fluid" src="@_logoUrl" alt="@PageState.Site.Name" />
+                        }
+                        else
+                        {
+                            <span class="logo-text">@PageState.Site.Name</span>
+                        }
+                    </a>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    @if (_search)
+                    {
+                        <Search AllowTextInput="false" />
+                    }
+                    <UserProfile />
+                    <Login ShowLogin="@_login" />
+                    <ControlPanel />
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Main Navigation Header -->
-    <header id="header" class="u-header-main @_headerclass">
-        <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
-            <div class="brand-identity d-flex align-items-center">
-                <a href="@PageState.Alias.Path" class="logo d-flex align-items-center">
-                    @if (PageState.Site.LogoFileId is not null)
-                    {
-                        <img class="brand-logo-img img-fluid" src="@Utilities.FileUrl(PageState.Alias, PageState.Site.LogoFileId.Value)" alt="@PageState.Site.Name" />
-                    }
-                    else if (!string.IsNullOrWhiteSpace(_logoUrl))
-                    {
-                        <img class="brand-logo-img img-fluid" src="@_logoUrl" alt="@PageState.Site.Name" />
-                    }
-                    else
-                    {
-                        <h1 class="logo-text m-0">@PageState.Site.Name</h1>
-                    }
-                </a>
+        <!-- Main Navigation Bar -->
+        <div class="u-header__section u-header__section--light py-2 border-bottom">
+            <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
+                <NavMenu />
+
+                @if (!string.IsNullOrEmpty(_navbuttontext) && !string.IsNullOrEmpty(_navbuttonurl))
+                {
+                    <div class="d-none d-lg-block">
+                        <a class="btn btn-sm u-btn-primary text-uppercase" href="@_navbuttonurl">@_navbuttontext</a>
+                    </div>
+                }
             </div>
-
-            <NavMenu />
-
-            @if (!string.IsNullOrEmpty(_navbuttontext) && !string.IsNullOrEmpty(_navbuttonurl))
-            {
-                <div class="d-none d-lg-block ms-3">
-                    <a class="btn btn-sm btn-primary" href="@_navbuttonurl">@_navbuttontext</a>
-                </div>
-            }
         </div>
     </header>
 
-    <!-- Top Billboard / Full-Width Hero Region -->
+    <!-- Top Billboard / Hero Section -->
     @if (!string.IsNullOrEmpty(_hero))
     {
         <div class="hero-section">
@@ -67,14 +69,15 @@
         <Pane Name="@ThemeConstants.Panes.HeaderBillboard" />
     </div>
 
-    @if (!PageState.Site.Settings.ContainsKey(GetType().Namespace + ":Login") && UserSecurity.IsAuthorized(PageState.User, PermissionNames.Edit, PageState.Page.PermissionList))
+    @if (!PageState.Site.Settings.ContainsKey(GetType().Namespace + ":Login") &&
+    UserSecurity.IsAuthorized(PageState.User, PermissionNames.Edit, PageState.Page.PermissionList))
     {
         <div class="container text-center my-3">
             <a href="@_themesettingsurl" class="btn btn-outline-primary btn-sm">Configure Theme Settings</a>
         </div>
     }
 
-    <!-- Blog / Magazine Multi-Column Layout -->
+    <!-- Unify Magazine 2-Column Content Layout -->
     <main class="main-content-zone container-fluid container-xl py-4 flex-grow-1">
         <div class="row">
             <!-- Main Content Area -->
@@ -82,13 +85,13 @@
                 <Pane Name="@ThemeConstants.Panes.MainBody" />
             </div>
 
-            <!-- Right Sidebar Zone -->
+            <!-- Right Sidebar Widgets -->
             <aside class="col-lg-4 mb-4">
                 <Pane Name="@ThemeConstants.Panes.RightSidebar" />
             </aside>
         </div>
 
-        <!-- Secondary / Left Collapsible Sidebar Region -->
+        <!-- Collapsible Bottom / Secondary Sidebar -->
         <div class="row">
             <div class="col-12">
                 <Pane Name="@ThemeConstants.Panes.LeftSidebar" />
@@ -96,15 +99,15 @@
         </div>
     </main>
 
-    <!-- Bottom Feature Zone -->
+    <!-- Bottom Features Section -->
     <div class="bottom-features-zone bg-light border-top py-4">
         <div class="container-fluid container-xl">
             <Pane Name="@ThemeConstants.Panes.BottomFeature" />
         </div>
     </div>
 
-    <!-- Magazine Footer -->
-    <footer class="u-footer pt-5 mt-auto">
+    <!-- Unify Magazine Footer -->
+    <footer class="u-footer-main pt-5 mt-auto">
         <div class="container-fluid container-xl pb-4">
             @if (!string.IsNullOrEmpty(_footer))
             {
@@ -114,46 +117,46 @@
             {
                 <div class="row">
                     <div class="col-md-4 mb-4">
-                        <h5 class="text-white mb-3">@PageState.Site.Name</h5>
-                        <p class="small text-muted">Blog Magazine Classic layout built for ministry and publishing operations.</p>
+                        <h4 class="h6 text-uppercase fw-bold mb-3">@PageState.Site.Name</h4>
+                        <p class="small">Publishing, ministry resources, and community updates.</p>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <h5 class="text-white mb-3">Navigation</h5>
-                        <ul class="list-unstyled small">
-                            <li><a href="@NavigateUrl()">Home</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <h5 class="text-white mb-3">Follow Us</h5>
-                        <div class="d-flex gap-3 fs-5">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-youtube"></i></a>
+                        <h4 class="h6 text-uppercase fw-bold mb-3">Quick Links</h4>
+                        <ul class="list-unstyled small mb-0">
+                            <li class="mb-1"><a href="@NavigateUrl()"><i class="fa fa-angle-right me-1 text-primary"></i>
+                                Home</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h4 class="h6 text-uppercase fw-bold mb-3">Follow Us</h4>
+                            <div class="d-flex gap-3 fs-5">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-youtube"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-        <div class="u-footer-copyright py-3 border-top border-secondary">
-            <div class="container-fluid container-xl text-center small">
-                @((MarkupString)_footerCopy)
+                }
             </div>
-        </div>
-    </footer>
-</div>
+            <div class="u-footer-bottom py-3">
+                <div class="container-fluid container-xl text-center small text-muted">
+                    @((MarkupString)_footerCopy)
+                </div>
+            </div>
+        </footer>
+    </div>
 
-<CookieConsent />
+    <CookieConsent />
 
-<!-- Scroll Top Utility -->
-<a href="@NavigateUrl()" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-</a>
+    <!-- Go-To Top Anchor -->
+    <a href="@NavigateUrl()" id="scroll-top" class="u-go-to-v2" aria-label="Back to top">
+        <i class="fa fa-angle-up"></i>
+    </a>
 
 @code {
     public override string Name => "Default";
     public override string Panes => ThemeConstants.Panes.Default;
 
-    private string _headerclass = "header d-flex align-items-center sticky-top";
     private bool _login = true;
     private bool _search = true;
     private string _navbuttontext = string.Empty;
@@ -170,19 +173,12 @@
         {
             var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries";
 
-            // Page settings resolution
             _hero = SettingService.GetSetting(PageState.Page.Settings, $"{ns}:Hero", string.Empty);
             if (!string.IsNullOrEmpty(_hero))
             {
-                _headerclass = "header d-flex align-items-center fixed-top";
                 _hero = Utilities.FormatContent(_hero, PageState.Alias, "render");
             }
-            else
-            {
-                _headerclass = "header d-flex align-items-center sticky-top";
-            }
 
-            // Site settings resolution
             _login = bool.Parse(SettingService.GetSetting(PageState.Site.Settings, $"{ns}:Login", "True"));
             _search = bool.Parse(SettingService.GetSetting(PageState.Site.Settings, $"{ns}:Search", "True"));
             _navbuttontext = SettingService.GetSetting(PageState.Site.Settings, $"{ns}:NavButtonText", string.Empty);

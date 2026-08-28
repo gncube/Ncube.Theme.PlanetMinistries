@@ -22,12 +22,12 @@ public sealed class ThemeInfo : ITheme
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = $"{ThemeConstants.AssetBasePath}/vendor/font-awesome/css/font-awesome.min.css"
+                Url = $"{ThemeConstants.AssetBasePath}/assets/vendor/font-awesome/css/font-awesome.min.css"
             },
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = $"{ThemeConstants.AssetBasePath}/vendor/simple-line-icons/css/simple-line-icons.min.css"
+                Url = $"{ThemeConstants.AssetBasePath}/assets/vendor/simple-line-icons/css/simple-line-icons.min.css"
             },
             new Resource
             {

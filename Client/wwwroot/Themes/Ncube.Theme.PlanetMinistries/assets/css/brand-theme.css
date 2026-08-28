@@ -1,0 +1,101 @@
+:root {
+    /* Unify Primary Accent Overrides */
+    --u-primary: #6281c8;
+    --u-primary-rgb: 98, 129, 200;
+    --u-primary-hover: #4f72c1;
+    --u-dark-bg: #2c2f37;
+    --u-secondary-bg: #f7f7f7;
+
+    --bs-primary: var(--u-primary);
+    --bs-primary-rgb: var(--u-primary-rgb);
+    --bs-body-font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Header & Utility Top Bar Refinements */
+.u-header__section {
+    background-color: #ffffff;
+}
+
+.u-top-bar-custom {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.brand-logo-img {
+    max-height: 46px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text a {
+    font-family: 'Roboto Slab', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #2c2f37;
+    text-decoration: none;
+}
+
+/* Panes Grid & Widget Modules */
+.billboard-pane-zone {
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+}
+
+.main-content-zone {
+    min-height: 480px;
+}
+
+.unify-magazine-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+.unify-magazine-card-header {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.unify-title-block {
+    margin-bottom: 1.75rem;
+}
+
+.unify-title-header {
+    border-bottom: 2px solid var(--u-primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.unify-title-header h3,
+.unify-title-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2c2f37;
+}
+
+/* Footer Section */
+.u-footer-main {
+    background-color: #f7f7f7;
+    color: #555555;
+    border-top: 1px solid #e5e5e5;
+}
+
+.u-footer-main a {
+    color: #555555;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.u-footer-main a:hover {
+    color: var(--u-primary);
+}
+
+.u-footer-bottom {
+    border-top: 1px solid #e5e5e5;
+    font-size: 0.85rem;
+}

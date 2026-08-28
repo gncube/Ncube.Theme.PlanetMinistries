@@ -2,14 +2,14 @@
 @inherits ContainerBase
 @inject ISettingService SettingService
 
-<div class="unify-title-container" data-aos="@_animate">
+<div class="unify-title-block" data-aos="@_animate">
     @if (_showTitle && !string.IsNullOrEmpty(ModuleState.Title) && ModuleState.Title != "-")
     {
         <div class="unify-title-header">
-            <h3>@ModuleState.Title</h3>
+            <h2>@ModuleState.Title</h2>
         </div>
     }
-    <div class="unify-title-content">
+    <div class="unify-title-body">
         <ModuleActions />
         <ModuleInstance />
     </div>
