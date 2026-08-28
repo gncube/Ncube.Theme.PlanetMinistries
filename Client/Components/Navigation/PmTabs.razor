@@ -1,0 +1,68 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Navigation
+
+<div class="pm-tabs @Class">
+    <ul class="nav @(Pills ? "nav-pills" : "nav-tabs") mb-3" role="tablist">
+        @foreach (var tab in _tabs)
+        {
+            var isSelected = tab == _activeTab;
+            <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link @(isSelected ? "active" : string.Empty)" role="tab"
+                        aria-selected="@(isSelected ? "true" : "false")" aria-controls="@tab.TabPaneId" id="@tab.TabButtonId"
+                        @onclick="() => SelectTab(tab)">
+                    @if (!string.IsNullOrWhiteSpace(tab.IconCssClass))
+                    {
+                        <i class="@tab.IconCssClass me-1" aria-hidden="true"></i>
+                    }
+                    @tab.Title
+                </button>
+            </li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <CascadingValue Value="this" IsFixed="true">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool Pills { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private readonly List<PmTabItem> _tabs = [];
+    private PmTabItem? _activeTab;
+
+    internal void RegisterTab(PmTabItem tab)
+    {
+        _tabs.Add(tab);
+        if (_activeTab is null || tab.InitiallyActive)
+        {
+            _activeTab = tab;
+        }
+        StateHasChanged();
+    }
+
+    internal void UnregisterTab(PmTabItem tab)
+    {
+        _tabs.Remove(tab);
+        if (_activeTab == tab)
+        {
+            _activeTab = _tabs.FirstOrDefault();
+        }
+        StateHasChanged();
+    }
+
+    internal bool IsActive(PmTabItem tab) => _activeTab == tab;
+
+    private void SelectTab(PmTabItem tab)
+    {
+        _activeTab = tab;
+    }
+}

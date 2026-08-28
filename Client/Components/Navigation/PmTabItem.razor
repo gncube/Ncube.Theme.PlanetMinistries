@@ -1,0 +1,44 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Navigation
+@implements IDisposable
+
+<div class="tab-pane fade @(IsActive ? "show active" : string.Empty)" id="@TabPaneId" role="tabpanel"
+     aria-labelledby="@TabButtonId" tabindex="0">
+    @if (IsActive)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    public PmTabs? Parent { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Title { get; set; }
+
+    [Parameter]
+    public string? IconCssClass { get; set; }
+
+    [Parameter]
+    public bool InitiallyActive { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private readonly string _tabId = Guid.NewGuid().ToString("N");
+
+    internal string TabButtonId => $"tab-btn-{_tabId}";
+    internal string TabPaneId => $"tab-pane-{_tabId}";
+
+    private bool IsActive => Parent?.IsActive(this) ?? false;
+
+    protected override void OnInitialized()
+    {
+        Parent?.RegisterTab(this);
+    }
+
+    public void Dispose()
+    {
+        Parent?.UnregisterTab(this);
+    }
+}
