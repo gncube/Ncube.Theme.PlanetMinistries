@@ -1,7 +1,8 @@
 /* --------------------------------------------------------------------------
    Planet Ministries Authoritative Customisation Layer
    -------------------------------------------------------------------------- */
-/* Planet Ministries Design Tokens & Scoped Theme Root */
+
+   /* Planet Ministries Design Tokens & Scoped Theme Root */
 .pm-theme {
     /* Brand Colors */
     --pm-primary: #1e70bf;
@@ -152,7 +153,7 @@
     color: #ffffff !important;
 }
 
-/* Content Cards */
+/* Content Cards & Aspect Ratio Utilities */
 .pm-theme .pm-card {
     background: var(--pm-surface);
     border: 1px solid var(--pm-border-color);
@@ -169,9 +170,25 @@
 }
 
 .pm-theme .pm-card-img-wrapper {
-    aspect-ratio: 16 / 9;
     overflow: hidden;
     background-color: var(--pm-light);
+    width: 100%;
+}
+
+.pm-theme .pm-card-img-wrapper.pm-ratio-16x9 {
+    aspect-ratio: 16 / 9;
+}
+
+.pm-theme .pm-card-img-wrapper.pm-ratio-4x3 {
+    aspect-ratio: 4 / 3;
+}
+
+.pm-theme .pm-card-img-wrapper.pm-ratio-1x1 {
+    aspect-ratio: 1 / 1;
+}
+
+.pm-theme .pm-card-img-wrapper.pm-ratio-21x9 {
+    aspect-ratio: 21 / 9;
 }
 
 .pm-theme .pm-card-img {
