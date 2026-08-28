@@ -1,10 +1,10 @@
-#nullable enable
 @namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Models
 
 <header class="pm-header" role="banner">
     <div class="container">
         <div class="pm-header-inner d-flex align-items-center justify-content-between">
-            <PmBrand SiteName="@(PageState?.Site?.Name ?? "Planet Ministries")" />
+            <PmBrand SiteName="@(PageState.Site?.Name ?? "Planet Ministries")" />
 
             <PmNavigation PageState="@PageState" />
 
@@ -23,7 +23,7 @@
 
 @code {
     [Parameter]
-    public PageState? PageState { get; set; }
+    public PageState PageState { get; set; } = default!;
 
     private bool _isMobileNavOpen;
 

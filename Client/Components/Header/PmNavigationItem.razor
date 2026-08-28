@@ -1,14 +1,12 @@
-#nullable enable
 @namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Models
 
 <li class="pm-navigation-item @(HasChildren ? "dropdown" : string.Empty)">
     @if (HasChildren)
     {
         <button type="button"
                 class="pm-navigation-link pm-navigation-dropdown-toggle btn btn-link p-0 @(IsActive ? "pm-navigation-link-active" : string.Empty)"
-                aria-expanded="@(_isDropdownOpen ? "true" : "false")" 
-                aria-haspopup="true" 
-                @onclick="ToggleDropdown"
+                aria-expanded="@(_isDropdownOpen ? "true" : "false")" aria-haspopup="true" @onclick="ToggleDropdown"
                 @onfocusout="HandleFocusOut">
             <span>@Page.Name</span>
             <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i>

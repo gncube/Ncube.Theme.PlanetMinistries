@@ -1,9 +1,9 @@
-#nullable enable
 @namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Models
 
 <nav class="pm-navigation d-none d-lg-block" aria-label="Main Navigation">
     <ul class="pm-navigation-list d-flex align-items-center list-unstyled m-0 gap-4">
-        @if (PageState?.Pages is not null)
+        @if (PageState.Pages is not null)
         {
             @foreach (var navItem in RootPages)
             {
@@ -16,16 +16,16 @@
 
 @code {
     [Parameter]
-    public PageState? PageState { get; set; }
+    public PageState PageState { get; set; } = default!;
 
     private IReadOnlyList<Page> RootPages =>
-        PageState?.Pages?
+        PageState.Pages?
             .Where(p => p.UserId is null && p.ParentId is null && p.IsNavigation)
             .OrderBy(p => p.Order)
             .ToList() ?? [];
 
     private IReadOnlyList<Page> GetChildPages(int parentId) =>
-        PageState?.Pages?
+        PageState.Pages?
             .Where(p => p.UserId is null && p.ParentId == parentId && p.IsNavigation)
             .OrderBy(p => p.Order)
             .ToList() ?? [];
