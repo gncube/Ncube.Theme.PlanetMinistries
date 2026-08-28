@@ -6,7 +6,7 @@
 @attribute [OqtaneIgnore]
 
 <div class="container">
-    <div class="row mb-1 align-items-center">
+    <div class="row mb-2 align-items-center">
         <Label Class="col-sm-3" For="login" HelpText="Specify if a Login option should be displayed. Note that this option does not prevent the login page from being accessible via a direct url.">Show Login?</Label>
         <div class="col-sm-9">
             <select id="login" class="form-select" @bind="@_login">
@@ -15,7 +15,7 @@
             </select>
         </div>
     </div>
-    <div class="row mb-1 align-items-center">
+    <div class="row mb-2 align-items-center">
         <Label Class="col-sm-3" For="search" HelpText="Specify if a search icon should be displayed">Show Search?</Label>
         <div class="col-sm-9">
             <select id="search" class="form-select" @bind="@_search">
@@ -24,49 +24,50 @@
             </select>
         </div>
     </div>
-    <div class="row mb-1 align-items-center">
-        <Label Class="col-sm-3" For="_navbutton" HelpText="Specify if you wish to include a button in the navigation for this site">Nav Button?</Label>
+    <div class="row mb-2 align-items-center">
+        <Label Class="col-sm-3" For="navbutton" HelpText="Specify if you wish to include a button in the navigation for this site">Nav Button?</Label>
         <div class="col-sm-9">
-            <select id="navbutton" class="form-select" @bind="@_navbutton">
+            <select id="navbutton" class="form-select mb-2" @bind="@_navbutton">
                 <option value="True">Yes</option>
                 <option value="False">No</option>
             </select>
             @if (_navbutton == "True")
             {
-                <input id="navbuttoncode" class="form-control" placeholder="Button Text" @bind="@_navbuttontext" />
-                <input id="navbuttonurl" class="form-control" placeholder="Button Url" @bind="@_navbuttonurl" />
+                <div class="d-flex flex-column gap-2">
+                    <input id="navbuttoncode" class="form-control" placeholder="Button Text" @bind="@_navbuttontext" />
+                    <input id="navbuttonurl" class="form-control" placeholder="Button Url" @bind="@_navbuttonurl" />
+                </div>
             }
         </div>
     </div>
-    <div class="row mb-1 align-items-center">
-        <Label Class="col-sm-3" For="_footerHTML" HelpText="Specify if you wish to include a footer section for this site">Footer Section?</Label>
+    <div class="row mb-2 align-items-center">
+        <Label Class="col-sm-3" For="footerHTML" HelpText="Specify if you wish to include a custom footer section for this site">Footer Section?</Label>
         <div class="col-sm-9">
-            <select id="footerHTML" class="form-select" value="@_footer" @onchange="(e => FooterChanged(e))">
+            <select id="footerHTML" class="form-select mb-2" value="@_footer" @onchange="FooterChanged">
                 <option value="True">Yes</option>
                 <option value="False">No</option>
             </select>
             @if (_footer == "True")
             {
-                <textarea id="footerHTML" class="form-control" @bind="@_footerHTML" rows="5"></textarea>
+                <textarea id="footerHTMLText" class="form-control" @bind="@_footerHTML" rows="5"></textarea>
             }
         </div>
     </div>
     <hr />
-    <div class="row mb-1 align-items-center">
+    <div class="row mb-2 align-items-center">
         <Label Class="col-sm-3" For="heroHTML" HelpText="Specify if you wish to include a hero banner for this page">Hero Banner?</Label>
         <div class="col-sm-9">
-            <select id="heroHTML" class="form-select" value="@_hero" @onchange="(e => HeroChanged(e))">
+            <select id="heroHTML" class="form-select mb-2" value="@_hero" @onchange="HeroChanged">
                 <option value="True">Yes</option>
                 <option value="False">No</option>
             </select>
             @if (_hero == "True")
             {
-                <textarea id="_heroHTML" class="form-control" @bind="@_heroHTML" rows="5"></textarea>
+                <textarea id="heroHTMLText" class="form-control" @bind="@_heroHTML" rows="5"></textarea>
             }
         </div>
     </div>
-    <br />
-    <div class="row mb-1 align-items-center">
+    <div class="row mb-2 align-items-center">
         <Label Class="col-sm-3" For="layout" HelpText="Specify the default layout for the page content">Content Layout:</Label>
         <div class="col-sm-9">
             <select id="layout" class="form-select" @bind="@_layout">
@@ -78,25 +79,25 @@
 </div>
 
 @code {
-    private int pageId = -1;
+    private int _pageId = -1;
     private string _login = "True";
     private string _search = "True";
     private string _navbutton = "False";
-    private string _navbuttontext = "";
-    private string _navbuttonurl = "";
+    private string _navbuttontext = string.Empty;
+    private string _navbuttonurl = string.Empty;
     private string _hero = "False";
-    private string _heroHTML = "";
-    private string _layout = "";
+    private string _heroHTML = string.Empty;
+    private string _layout = "standard";
     private string _footer = "False";
-    private string _footerHTML = "";
+    private string _footerHTML = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            if (PageState.QueryString.ContainsKey("id"))
+            if (PageState.QueryString.TryGetValue("id", out var idStr) && int.TryParse(idStr, out var id))
             {
-                pageId = int.Parse(PageState.QueryString["id"]);
+                _pageId = id;
             }
             await LoadSettings();
         }
@@ -109,36 +110,35 @@
 
     private async Task LoadSettings()
     {
-        // page settings
-        var settings = await SettingService.GetPageSettingsAsync(pageId);
-        _heroHTML = SettingService.GetSetting(settings, GetType().Namespace + ":Hero", "");
-        _hero = (_heroHTML == "") ? "False" : "True";
-        _layout = SettingService.GetSetting(settings, GetType().Namespace + ":Layout", "");
+        var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries";
+
+        // Page settings
+        var pageSettings = await SettingService.GetPageSettingsAsync(_pageId);
+        _heroHTML = SettingService.GetSetting(pageSettings, $"{ns}:Hero", string.Empty);
+        _hero = string.IsNullOrEmpty(_heroHTML) ? "False" : "True";
+        _layout = SettingService.GetSetting(pageSettings, $"{ns}:Layout", string.Empty);
         if (string.IsNullOrEmpty(_layout))
         {
             _layout = (_hero == "False") ? "standard" : "full";
         }
 
-        // site settings
-        settings = PageState.Site.Settings;
-        _login = SettingService.GetSetting(settings, GetType().Namespace + ":Login", "True");
-        _search = SettingService.GetSetting(settings, GetType().Namespace + ":Search", "True");
-        _navbuttontext = SettingService.GetSetting(settings, GetType().Namespace + ":NavButtonText", "");
-        _navbuttonurl = SettingService.GetSetting(settings, GetType().Namespace + ":NavButtonUrl", "");
-        if (!string.IsNullOrEmpty(_navbuttontext) && !string.IsNullOrEmpty(_navbuttonurl))
-        {
-            _navbutton = "True";
-        }
-        _footerHTML = SettingService.GetSetting(settings, GetType().Namespace + ":Footer", "");
-        _footer = (_footerHTML == "") ? "False" : "True";
+        // Site settings
+        var siteSettings = PageState.Site.Settings;
+        _login = SettingService.GetSetting(siteSettings, $"{ns}:Login", "True");
+        _search = SettingService.GetSetting(siteSettings, $"{ns}:Search", "True");
+        _navbuttontext = SettingService.GetSetting(siteSettings, $"{ns}:NavButtonText", string.Empty);
+        _navbuttonurl = SettingService.GetSetting(siteSettings, $"{ns}:NavButtonUrl", string.Empty);
+        _navbutton = (!string.IsNullOrEmpty(_navbuttontext) && !string.IsNullOrEmpty(_navbuttonurl)) ? "True" : "False";
+        _footerHTML = SettingService.GetSetting(siteSettings, $"{ns}:Footer", string.Empty);
+        _footer = string.IsNullOrEmpty(_footerHTML) ? "False" : "True";
     }
 
     private void HeroChanged(ChangeEventArgs eventArgs)
     {
-        _hero = (string)eventArgs.Value;
-        if (bool.Parse(_hero))
+        _hero = eventArgs.Value?.ToString() ?? "False";
+        if (bool.TryParse(_hero, out var isHero) && isHero)
         {
-            if (_heroHTML == "")
+            if (string.IsNullOrEmpty(_heroHTML))
             {
                 _heroHTML = Localizer["Hero"];
             }
@@ -146,24 +146,24 @@
         }
         else
         {
-            _heroHTML = "";
+            _heroHTML = string.Empty;
             _layout = "standard";
         }
     }
 
     private void FooterChanged(ChangeEventArgs eventArgs)
     {
-        _footer = (string)eventArgs.Value;
-        if (bool.Parse(_footer))
+        _footer = eventArgs.Value?.ToString() ?? "False";
+        if (bool.TryParse(_footer, out var isFooter) && isFooter)
         {
-            if (_footerHTML == "")
+            if (string.IsNullOrEmpty(_footerHTML))
             {
                 _footerHTML = Localizer["Footer"];
             }
         }
         else
         {
-            _footerHTML = "";
+            _footerHTML = string.Empty;
         }
     }
 
@@ -171,20 +171,22 @@
     {
         try
         {
-            // page settings
-            var settings = await SettingService.GetPageSettingsAsync(pageId);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Hero", _heroHTML);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Layout", _layout);
-            await SettingService.UpdatePageSettingsAsync(settings, pageId);
+            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries";
 
-            // site settings
-            settings = await SettingService.GetSiteSettingsAsync(PageState.Site.SiteId);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Login", _login);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Search", _search);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":NavButtonText", _navbuttontext);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":NavButtonUrl", _navbuttonurl);
-            settings = SettingService.SetSetting(settings, GetType().Namespace + ":Footer", _footerHTML);
-            await SettingService.UpdateSiteSettingsAsync(settings, PageState.Site.SiteId);
+            // Save page settings
+            var pageSettings = await SettingService.GetPageSettingsAsync(_pageId);
+            pageSettings = SettingService.SetSetting(pageSettings, $"{ns}:Hero", _heroHTML);
+            pageSettings = SettingService.SetSetting(pageSettings, $"{ns}:Layout", _layout);
+            await SettingService.UpdatePageSettingsAsync(pageSettings, _pageId);
+
+            // Save site settings
+            var siteSettings = await SettingService.GetSiteSettingsAsync(PageState.Site.SiteId);
+            siteSettings = SettingService.SetSetting(siteSettings, $"{ns}:Login", _login);
+            siteSettings = SettingService.SetSetting(siteSettings, $"{ns}:Search", _search);
+            siteSettings = SettingService.SetSetting(siteSettings, $"{ns}:NavButtonText", _navbuttontext);
+            siteSettings = SettingService.SetSetting(siteSettings, $"{ns}:NavButtonUrl", _navbuttonurl);
+            siteSettings = SettingService.SetSetting(siteSettings, $"{ns}:Footer", _footerHTML);
+            await SettingService.UpdateSiteSettingsAsync(siteSettings, PageState.Site.SiteId);
         }
         catch (Exception ex)
         {

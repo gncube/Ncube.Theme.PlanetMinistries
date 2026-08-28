@@ -1,0 +1,133 @@
+:root {
+    /* Unify v2.6 Color Tokens */
+    --u-primary: #72c02c;
+    --u-primary-rgb: 114, 192, 44;
+    --u-primary-hover: #5ea323;
+    --u-heading-color: #333333;
+    --u-body-color: #555555;
+    --u-body-bg: #fdfdfd;
+    --u-border-color: #e5e5e5;
+    --u-card-bg: #ffffff;
+    --u-card-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    /* Bootstrap 5 Theme Overrides */
+    --bs-primary: var(--u-primary);
+    --bs-primary-rgb: var(--u-primary-rgb);
+    --bs-body-font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+    --bs-body-color: var(--u-body-color);
+    --bs-body-bg: var(--u-body-bg);
+
+    /* Typography */
+    --font-heading: 'Roboto Slab', Georgia, serif;
+    --font-base: 'Open Sans', sans-serif;
+}
+
+body {
+    font-family: var(--bs-body-font-family);
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--u-heading-color);
+    font-weight: 700;
+}
+
+/* Header Top Bar */
+.u-top-bar {
+    background-color: #2e353b;
+    color: #a0aab2;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #3c444a;
+}
+
+.u-top-bar a {
+    color: #a0aab2;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.u-top-bar a:hover {
+    color: #ffffff;
+}
+
+/* Main Navigation Bar */
+.u-header-main {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.brand-logo-img {
+    max-height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text a {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--u-heading-color);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+/* Pane Zone Containers */
+.billboard-pane-zone {
+    border-bottom: 1px solid var(--u-border-color);
+    background-color: #ffffff;
+}
+
+.main-content-zone {
+    min-height: 500px;
+}
+
+/* Magazine Widget Containers */
+.unify-card {
+    background: var(--u-card-bg);
+    border: 1px solid var(--u-border-color);
+    border-radius: 4px;
+    box-shadow: var(--u-card-shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.75rem;
+}
+
+.unify-title-container {
+    margin-bottom: 1.75rem;
+}
+
+.unify-title-header {
+    border-bottom: 2px solid var(--u-primary);
+    position: relative;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.unify-title-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    display: inline-block;
+}
+
+/* Unify Footer */
+.u-footer {
+    background-color: #22252a;
+    color: #8c98a4;
+    font-size: 0.9rem;
+}
+
+.u-footer a {
+    color: #8c98a4;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.u-footer a:hover {
+    color: var(--u-primary);
+}
+
+.u-footer-copyright {
+    border-top: 1px solid #2e3238;
+}

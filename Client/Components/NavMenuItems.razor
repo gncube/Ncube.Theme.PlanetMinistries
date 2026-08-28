@@ -1,46 +1,47 @@
 @namespace Ncube.Theme.PlanetMinistries
 @inherits MenuItemsBase
 
-<ul>
+<ul class="@(ParentPage is null ? "d-flex align-items-center mb-0 list-unstyled gap-2" : "dropdown-menu u-dropdown-menu shadow-sm border-0")">
     @foreach (var childPage in GetChildPages())
     {
-        var _attributes = new Dictionary<string, object>();
-        _attributes.Add("href", GetUrl(childPage));
-        var _target = GetTarget(childPage);
-        if (!string.IsNullOrEmpty(_target))
+        var attributes = new Dictionary<string, object>
         {
-            _attributes.Add("target", _target);
+            ["href"] = GetUrl(childPage)
+        };
+
+        var target = GetTarget(childPage);
+        if (!string.IsNullOrEmpty(target))
+        {
+            attributes["target"] = target;
         }
+
+        var isCurrent = childPage.PageId == PageState.Page.PageId;
 
         if (!childPage.HasChildren)
         {
             if (childPage.Level == 0)
             {
-                if (childPage.PageId == PageState.Page.PageId)
-                {
-                    <li>
-                        <a class="active" @attributes="_attributes">@childPage.Name</a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a @attributes="_attributes">@childPage.Name</a>
-                    </li>
-                }
+                <li class="nav-item u-nav-item">
+                    <a class="nav-link u-nav-link @(isCurrent ? "active" : string.Empty)" @attributes="attributes">
+                        @childPage.Name
+                    </a>
+                </li>
             }
             else
             {
                 <li>
-                    <a @attributes="_attributes">@childPage.Name</a>
+                    <a class="dropdown-item u-dropdown-item @(isCurrent ? "active" : string.Empty)" @attributes="attributes">
+                        @childPage.Name
+                    </a>
                 </li>
             }
         }
         else
         {
-            <li class="dropdown">
-                <a @attributes="_attributes"><span>@childPage.Name</span>
-                    <i class="bi bi-chevron-down toggle-dropdown"></i>
+            <li class="nav-item dropdown u-nav-item @(isCurrent ? "active" : string.Empty)">
+                <a class="nav-link dropdown-toggle u-nav-link d-flex align-items-center justify-content-between" @attributes="attributes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span>@childPage.Name</span>
+                    <i class="bi bi-chevron-down ms-1 small toggle-dropdown"></i>
                 </a>
                 <NavMenuItems ParentPage="childPage" Pages="Pages" />
             </li>
