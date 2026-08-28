@@ -1,0 +1,19 @@
+@namespace Ncube.Theme.PlanetMinistries.Containers
+@inherits ContainerBase
+
+<div class="unify-card @(ModuleState.SecurityHash)">
+    @if (ModuleState.ShowTitle)
+    {
+        <div class="unify-card-header mb-3 pb-2 border-bottom">
+            <h4 class="m-0">@ModuleState.Title</h4>
+        </div>
+    }
+    <div class="unify-card-body">
+        <ModuleActions />
+        <ModuleControl />
+    </div>
+</div>
+
+@code {
+    public override string Name => "Unify Card Container";
+}

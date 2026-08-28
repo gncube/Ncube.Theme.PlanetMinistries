@@ -1,45 +1,39 @@
 using System.Collections.Generic;
 using Oqtane.Models;
-using Oqtane.Themes;
 using Oqtane.Shared;
+using Oqtane.Themes;
 
-namespace Ncube.Theme.PlanetMinistries
+namespace Ncube.Theme.PlanetMinistries;
+
+public sealed class ThemeInfo : ITheme
 {
-    public class ThemeInfo : ITheme
+    public Oqtane.Models.Theme Theme => new()
     {
-        public Oqtane.Models.Theme Theme => new()
-        {
-            Name = "Planet Ministries Theme",
-            Version = GetType().Assembly.GetName().Version?.ToString(3) ?? "1.0.0",
-            PackageName = "Ncube.Theme.PlanetMinistries",
-            ThemeSettingsType = "Ncube.Theme.PlanetMinistries.ThemeSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
-            ContainerSettingsType = "Ncube.Theme.PlanetMinistries.ContainerSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
-            Resources = new List<Resource>
+        Name = "Planet Ministries Unify Classic Theme",
+        Version = "1.0.0",
+        ThemeName = typeof(ThemeInfo).Namespace,
+        Resources =
+        [
+            new Resource
             {
-                // Fonts
-                new Stylesheet("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"),
-                // Stylesheets
-                new Stylesheet("~/assets/vendor/bootstrap/css/bootstrap.min.css"),
-                new Stylesheet("~/assets/vendor/bootstrap-icons/bootstrap-icons.css"),
-                new Stylesheet("~/assets/vendor/aos/aos.css"),
-                new Stylesheet("~/assets/vendor/glightbox/css/glightbox.min.css"),
-                new Stylesheet("~/assets/vendor/swiper/swiper-bundle.min.css"),
-                // Main Stylesheet
-                new Stylesheet("~/assets/css/main.css"),
-                // JavaScript
-                new Script("~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"),
-                new Script("~/assets/vendor/aos/aos.js"),
-                new Script("~/assets/vendor/glightbox/js/glightbox.min.js"),
-                new Script("~/assets/vendor/swiper/swiper-bundle.min.js"),
-                new Script("~/assets/vendor/waypoints/noframework.waypoints.js"),
-                new Script("~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"),
-                new Script("~/assets/vendor/isotope-layout/isotope.pkgd.min.js"),
-                new Script("~/assets/vendor/purecounter/purecounter.js"),
-                new Script("~/assets/vendor/countdown/countdown.js"),
-                // Main JavaScript 
-                new Script("~/assets/js/main.js", "", "", ResourceLocation.Body, ResourceLoadBehavior.Always, null, "", "", RenderModes.Static),
-                new Script("~/assets/js/interop.js", "", "", ResourceLocation.Body, ResourceLoadBehavior.None, null, "", "", RenderModes.Interactive)
+                ResourceType = ResourceType.Stylesheet,
+                Url = "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&display=swap"
+            },
+            new Resource
+            {
+                ResourceType = ResourceType.Stylesheet,
+                Url = $"{ThemeConstants.AssetBasePath}/vendor/font-awesome/css/font-awesome.min.css"
+            },
+            new Resource
+            {
+                ResourceType = ResourceType.Stylesheet,
+                Url = $"{ThemeConstants.AssetBasePath}/vendor/simple-line-icons/css/simple-line-icons.min.css"
+            },
+            new Resource
+            {
+                ResourceType = ResourceType.Stylesheet,
+                Url = $"{ThemeConstants.AssetBasePath}/css/brand-theme.css"
             }
-        };
-    }
+        ]
+    };
 }

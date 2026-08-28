@@ -1,0 +1,19 @@
+@namespace Ncube.Theme.PlanetMinistries.Containers
+@inherits ContainerBase
+
+<div class="unify-title-container @(ModuleState.SecurityHash)">
+    @if (ModuleState.ShowTitle)
+    {
+        <div class="unify-title-header">
+            <h3>@ModuleState.Title</h3>
+        </div>
+    }
+    <div class="unify-title-content">
+        <ModuleActions />
+        <ModuleControl />
+    </div>
+</div>
+
+@code {
+    public override string Name => "Unify Title Container";
+}
