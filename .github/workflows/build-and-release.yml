@@ -1,0 +1,94 @@
+name: Build and Package Theme
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-test:
+    name: Build, Test and Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Determine Version Prefix
+        id: versioning
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            # Extract tag name and strip leading 'v'
+            VERSION_TAG="${GITHUB_REF_NAME#v}"
+            echo "VERSION_PREFIX=${VERSION_TAG}" >> "$GITHUB_OUTPUT"
+            echo "IS_RELEASE=true" >> "$GITHUB_OUTPUT"
+            echo "Building Release Tag: ${VERSION_TAG}"
+          else
+            # Extract fallback from Directory.Build.props or default to build metadata
+            VERSION_PREFIX="2.0.1-preview.${{ github.run_number }}"
+            echo "VERSION_PREFIX=${VERSION_PREFIX}" >> "$GITHUB_OUTPUT"
+            echo "IS_RELEASE=false" >> "$GITHUB_OUTPUT"
+            echo "Building Branch/PR Version: ${VERSION_PREFIX}"
+          fi
+
+      - name: Restore Dependencies
+        run: dotnet restore Ncube.Theme.PlanetMinistries.sln
+
+      - name: Build Solution
+        run: >
+          dotnet build Ncube.Theme.PlanetMinistries.sln
+          --configuration Release
+          --no-restore
+          /p:VersionPrefix=${{ steps.versioning.outputs.VERSION_PREFIX }}
+
+      - name: Execute Tests
+        run: >
+          dotnet test Ncube.Theme.PlanetMinistries.sln
+          --configuration Release
+          --no-build
+          --verbosity normal
+
+      - name: Create Oqtane NuGet Package
+        run: >
+          dotnet pack Package/Ncube.Theme.PlanetMinistries.Package.csproj
+          --configuration Release
+          --no-build
+          --output ./artifacts
+          /p:VersionPrefix=${{ steps.versioning.outputs.VERSION_PREFIX }}
+
+      - name: Upload Package Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ncube.Theme.PlanetMinistries.${{ steps.versioning.outputs.VERSION_PREFIX }}
+          path: ./artifacts/*.nupkg
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: steps.versioning.outputs.IS_RELEASE == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./artifacts/*.nupkg
+          name: Release v${{ steps.versioning.outputs.VERSION_PREFIX }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

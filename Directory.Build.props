@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <!-- Centralized Versioning -->
+    <!-- Centralized Versioning (Single Source of Truth) -->
     <VersionPrefix>2.0.1</VersionPrefix>
 
     <!-- Common Metadata -->

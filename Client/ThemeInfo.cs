@@ -9,7 +9,7 @@ public sealed class ThemeInfo : ITheme
     public Theme Theme => new()
     {
         Name = "Planet Ministries Theme",
-        Version = "2.0.1",
+        Version = ThemeVersion.Current,
         ThemeName = typeof(ThemeInfo).Namespace,
         Resources =
         [
