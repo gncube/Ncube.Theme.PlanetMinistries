@@ -2,27 +2,77 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+    <IsPackable Condition="'$(Configuration)' == 'Release'">true</IsPackable>
+    <IsPackable Condition="'$(Configuration)' != 'Release'">false</IsPackable>
+    
+    <!-- Package Metadata -->
+    <PackageId>Ncube.Theme.PlanetMinistries</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ncube</Authors>
+    <Company>Ncube</Company>
+    <Title>Planet Ministries Theme for Oqtane</Title>
+    <Description>Planet Ministries Theme</Description>
+    <Copyright>Ncube</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/gncube/Ncube.Theme.PlanetMinistries</PackageProjectUrl>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Ncube.Theme.PlanetMinistries.Client.csproj" />
   </ItemGroup>
 
-<!--
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Condition="'$(OS)' == 'Windows_NT' And '$(Configuration)' == 'Debug'" Command="debug.cmd" />
-    <Exec Condition="'$(OS)' != 'Windows_NT' And '$(Configuration)' == 'Debug'" Command="bash $(ProjectDir)debug.sh" />
-    <Exec Condition="'$(OS)' == 'Windows_NT' And '$(Configuration)' == 'Release'" Command="release.cmd" />
-    <Exec Condition="'$(OS)' != 'Windows_NT' And '$(Configuration)' == 'Release'" Command="bash $(ProjectDir)release.sh" />
+  <ItemGroup>
+    <!-- Pack Client DLL & PDB into lib\net9.0 -->
+    <None Include="..\Client\bin\$(Configuration)\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll"
+          Pack="true"
+          PackagePath="lib\net9.0"
+          Visible="false" />
+    <None Include="..\Client\bin\$(Configuration)\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb"
+          Pack="true"
+          PackagePath="lib\net9.0"
+          Visible="false" />
+
+    <!-- Pack Client static web assets into wwwroot -->
+    <Content Include="..\Client\wwwroot\**\*.*"
+             Pack="true"
+             PackagePath="wwwroot"
+             CopyToOutputDirectory="Never"
+             Visible="false" />
+  </ItemGroup>
+
+  <!-- Local Framework Deployment (Replaces debug.cmd & release.cmd copy logic) -->
+  <Target Name="DeployToLocalOqtane" AfterTargets="Build">
+    <PropertyGroup>
+      <OqtaneServerDir>..\..\oqtane.framework\Oqtane.Server</OqtaneServerDir>
+    </PropertyGroup>
+
+    <!-- Debug asset deployment -->
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')">
+      <ClientDebugFiles Include="..\Client\bin\Debug\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll;..\Client\bin\Debug\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb" />
+      <ClientWebFiles Include="..\Client\wwwroot\**\*.*" />
+    </ItemGroup>
+    
+    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')"
+          SourceFiles="@(ClientDebugFiles)"
+          DestinationFolder="$(OqtaneServerDir)\bin\Debug\net9.0\"
+          SkipUnchangedFiles="true" />
+    
+    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')"
+          SourceFiles="@(ClientWebFiles)"
+          DestinationFolder="$(OqtaneServerDir)\wwwroot\%(RecursiveDir)"
+          SkipUnchangedFiles="true" />
+
+    <!-- Release nupkg deployment -->
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And Exists('$(OqtaneServerDir)\Packages\')">
+      <PackageOutputFiles Include="$(OutputPath)..\$(PackageId).$(Version).nupkg" />
+    </ItemGroup>
+
+    <Copy Condition="'$(Configuration)' == 'Release' And Exists('$(OqtaneServerDir)\Packages\')"
+          SourceFiles="@(PackageOutputFiles)"
+          DestinationFolder="$(OqtaneServerDir)\Packages\"
+          SkipUnchangedFiles="true" />
   </Target>
---> 
 
 </Project>
