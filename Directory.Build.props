@@ -5,8 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <!-- Centralized Versioning (Single Source of Truth) -->
-    <VersionPrefix>2.0.1</VersionPrefix>
+    <!-- Support shorthand -p:v=2.0.2 override with fallback to VersionPrefix -->
+    <VersionPrefix Condition="'$(v)' != ''">$(v)</VersionPrefix>
+    <VersionPrefix Condition="'$(VersionPrefix)' == ''">2.0.1</VersionPrefix>
 
     <!-- Common Metadata -->
     <Authors>Gerald Ncube</Authors>
