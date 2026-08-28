@@ -3,12 +3,12 @@ using Oqtane.Themes;
 
 namespace Ncube.Theme.PlanetMinistries.Containers;
 
-public sealed class ContainerInfo : IContainer
+public sealed class ContainerInfo : ITheme
 {
-    public Container Container => new()
+    public Oqtane.Models.Theme Theme => new()
     {
         Name = "Planet Ministries Containers",
         Version = "1.0.0",
-        ContainerName = typeof(ContainerInfo).Namespace
+        ThemeName = typeof(ContainerInfo).Namespace
     };
 }

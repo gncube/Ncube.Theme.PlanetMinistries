@@ -1,8 +1,9 @@
 @namespace Ncube.Theme.PlanetMinistries.Containers
 @inherits ContainerBase
+@inject ISettingService SettingService
 
-<div class="unify-card @(ModuleState.SecurityHash)">
-    @if (ModuleState.ShowTitle)
+<div class="unify-card">
+    @if (_showTitle && !string.IsNullOrEmpty(ModuleState.Title) && ModuleState.Title != "-")
     {
         <div class="unify-card-header mb-3 pb-2 border-bottom">
             <h4 class="m-0">@ModuleState.Title</h4>
@@ -10,10 +11,25 @@
     }
     <div class="unify-card-body">
         <ModuleActions />
-        <ModuleControl />
+        <ModuleInstance />
     </div>
 </div>
 
 @code {
     public override string Name => "Unify Card Container";
+
+    private bool _showTitle = true;
+
+    protected override void OnParametersSet()
+    {
+        try
+        {
+            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries";
+            _showTitle = bool.Parse(SettingService.GetSetting(ModuleState.Settings, $"{ns}:Title", "true"));
+        }
+        catch
+        {
+            _showTitle = true;
+        }
+    }
 }
