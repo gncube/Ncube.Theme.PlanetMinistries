@@ -3,7 +3,9 @@ namespace Ncube.Theme.PlanetMinistries;
 public static class ThemeConstants
 {
     public const string ThemePackageName = "Ncube.Theme.PlanetMinistries";
-    public const string AssetBasePath = $"~/Themes/{ThemePackageName}";
+
+    // ~/ expands to Themes/Ncube.Theme.PlanetMinistries, appending /assets matches physical wwwroot
+    public const string AssetBasePath = "~/assets";
 
     // Site & Page Brand Settings
     public const string BrandLogoUrlSetting = "Brand_LogoUrl";

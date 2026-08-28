@@ -17,17 +17,27 @@ public sealed class ThemeInfo : ITheme
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&display=swap"
+                Url = "https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700%7COpen+Sans:400,600,700"
             },
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = $"{ThemeConstants.AssetBasePath}/assets/vendor/font-awesome/css/font-awesome.min.css"
+                Url = $"{ThemeConstants.AssetBasePath}/vendor/icon-awesome/css/font-awesome.min.css"
             },
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = $"{ThemeConstants.AssetBasePath}/assets/vendor/simple-line-icons/css/simple-line-icons.min.css"
+                Url = $"{ThemeConstants.AssetBasePath}/vendor/icon-line/css/simple-line-icons.css"
+            },
+            new Resource
+            {
+                ResourceType = ResourceType.Stylesheet,
+                Url = $"{ThemeConstants.AssetBasePath}/vendor/animate.css"
+            },
+            new Resource
+            {
+                ResourceType = ResourceType.Stylesheet,
+                Url = $"{ThemeConstants.AssetBasePath}/css/styles.bm-classic.css"
             },
             new Resource
             {
