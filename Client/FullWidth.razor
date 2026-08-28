@@ -1,18 +1,20 @@
-@using System.Net
 @namespace Ncube.Theme.PlanetMinistries
 @inherits ThemeBase
 @inject NavigationManager NavigationManager
 @inject ISettingService SettingService
 @inject IStringLocalizer<Default> Localizer
+@using Ncube.Theme.PlanetMinistries.Client.Components.Header
 
-<div class="u-wrapper d-flex flex-column min-vh-100">
-    <!-- Unify Classic Utility Top Bar -->
-    <div class="u-top-bar py-2">
+<div class="pm-theme d-flex flex-column min-vh-100">
+    <!-- Utility Top Bar -->
+    <div class="pm-top-bar py-2 border-bottom">
         <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
-            <div class="u-top-contacts d-flex align-items-center gap-3">
-                <span class="small"><i class="bi bi-envelope me-1"></i> contact@planetministries.org</span>
+            <div class="pm-top-contacts d-flex align-items-center gap-3">
+                <span class="small text-muted">
+                    <i class="bi bi-envelope me-1" aria-hidden="true"></i> contact@planetministries.org
+                </span>
             </div>
-            <div class="u-top-auth d-flex align-items-center gap-2">
+            <div class="pm-top-auth d-flex align-items-center gap-2">
                 @if (_search)
                 {
                     <Search AllowTextInput="false" />
@@ -25,58 +27,30 @@
     </div>
 
     <!-- Main Navigation Header -->
-    <header id="header" class="u-header-main @_headerclass">
-        <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
-            <div class="brand-identity d-flex align-items-center">
-                <a href="@PageState.Alias.Path" class="logo d-flex align-items-center">
-                    @if (PageState.Site.LogoFileId is not null)
-                    {
-                        <img class="brand-logo-img img-fluid" src="@Utilities.FileUrl(PageState.Alias, PageState.Site.LogoFileId.Value)" alt="@PageState.Site.Name" />
-                    }
-                    else if (!string.IsNullOrWhiteSpace(_logoUrl))
-                    {
-                        <img class="brand-logo-img img-fluid" src="@_logoUrl" alt="@PageState.Site.Name" />
-                    }
-                    else
-                    {
-                        <h1 class="logo-text m-0">@PageState.Site.Name</h1>
-                    }
-                </a>
-            </div>
-
-            <NavMenu />
-
-            @if (!string.IsNullOrEmpty(_navbuttontext) && !string.IsNullOrEmpty(_navbuttonurl))
-            {
-                <div class="d-none d-lg-block ms-3">
-                    <a class="btn btn-sm btn-primary" href="@_navbuttonurl">@_navbuttontext</a>
-                </div>
-            }
-        </div>
-    </header>
+    <PmHeader PageState="@PageState" />
 
     @if (!string.IsNullOrEmpty(_hero))
     {
-        <div class="hero-section">
+        <div class="pm-hero-section">
             @((MarkupString)_hero)
         </div>
     }
 
-    <div class="billboard-pane-zone">
+    <div class="pm-billboard-pane-zone">
         <Pane Name="@ThemeConstants.Panes.HeaderBillboard" />
     </div>
 
-    <main class="main-content-zone container-fluid px-lg-5 py-4 flex-grow-1">
+    <main class="pm-main-content container-fluid px-lg-5 py-4 flex-grow-1">
         <Pane Name="@ThemeConstants.Panes.MainBody" />
     </main>
 
-    <div class="bottom-features-zone bg-light border-top py-4">
+    <div class="pm-bottom-features-zone bg-light border-top py-4">
         <div class="container-fluid container-xl">
             <Pane Name="@ThemeConstants.Panes.BottomFeature" />
         </div>
     </div>
 
-    <footer class="u-footer pt-5 mt-auto">
+    <footer class="pm-footer pt-5 mt-auto bg-dark text-light">
         <div class="container-fluid container-xl pb-4">
             @if (!string.IsNullOrEmpty(_footer))
             {
@@ -92,40 +66,35 @@
                     <div class="col-md-6 mb-4 text-md-end">
                         <h5 class="text-white mb-3">Follow Us</h5>
                         <div class="d-flex gap-3 justify-content-md-end fs-5">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-youtube"></i></a>
+                            <a href="#" class="text-light" aria-label="Facebook"><i class="bi bi-facebook"
+                                                                                        aria-hidden="true"></i></a>
+                                <a href="#" class="text-light" aria-label="X Twitter"><i class="bi bi-twitter-x"
+                                                                                             aria-hidden="true"></i></a>
+                                    <a href="#" class="text-light" aria-label="YouTube"><i class="bi bi-youtube"
+                                                                                               aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="pm-footer-copyright py-3 border-top border-secondary">
+                        <div class="container-fluid container-xl text-center small text-muted">
+                            @((MarkupString)_footerCopy)
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-        <div class="u-footer-copyright py-3 border-top border-secondary">
-            <div class="container-fluid container-xl text-center small">
-                @((MarkupString)_footerCopy)
+                </footer>
             </div>
-        </div>
-    </footer>
-</div>
 
 <CookieConsent />
-
-<a href="@NavigateUrl()" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-</a>
 
 @code {
     public override string Name => "Full Width";
     public override string Panes => ThemeConstants.Panes.FullWidth;
 
-    private string _headerclass = "header d-flex align-items-center sticky-top";
     private bool _login = true;
     private bool _search = true;
-    private string _navbuttontext = string.Empty;
-    private string _navbuttonurl = string.Empty;
     private string _hero = string.Empty;
     private string _footer = string.Empty;
-    private string _logoUrl = string.Empty;
     private string _footerCopy = string.Empty;
 
     protected override void OnParametersSet()
@@ -137,25 +106,18 @@
             _hero = SettingService.GetSetting(PageState.Page.Settings, $"{ns}:Hero", string.Empty);
             if (!string.IsNullOrEmpty(_hero))
             {
-                _headerclass = "header d-flex align-items-center fixed-top";
                 _hero = Utilities.FormatContent(_hero, PageState.Alias, "render");
-            }
-            else
-            {
-                _headerclass = "header d-flex align-items-center sticky-top";
             }
 
             _login = bool.Parse(SettingService.GetSetting(PageState.Site.Settings, $"{ns}:Login", "True"));
             _search = bool.Parse(SettingService.GetSetting(PageState.Site.Settings, $"{ns}:Search", "True"));
-            _navbuttontext = SettingService.GetSetting(PageState.Site.Settings, $"{ns}:NavButtonText", string.Empty);
-            _navbuttonurl = SettingService.GetSetting(PageState.Site.Settings, $"{ns}:NavButtonUrl", string.Empty);
+
             _footer = SettingService.GetSetting(PageState.Site.Settings, $"{ns}:Footer", string.Empty);
             if (!string.IsNullOrEmpty(_footer))
             {
                 _footer = Utilities.FormatContent(_footer, PageState.Alias, "render");
             }
 
-            _logoUrl = SettingService.GetSetting(PageState.Site.Settings, ThemeConstants.BrandLogoUrlSetting, string.Empty);
             _footerCopy = SettingService.GetSetting(
                 PageState.Site.Settings,
                 ThemeConstants.BrandFooterCopySetting,
@@ -165,12 +127,5 @@
         {
             _footerCopy = $"&copy; {DateTime.UtcNow.Year} {PageState.Site.Name}. All rights reserved.";
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        var interop = new Interop(JSRuntime);
-        await interop.Load();
     }
 }

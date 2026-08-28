@@ -1,28 +1,26 @@
-﻿using Microsoft.JSInterop;
+﻿namespace Ncube.Theme.PlanetMinistries;
+
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
-namespace Ncube.Theme.PlanetMinistries
+public sealed class Interop(IJSRuntime jsRuntime)
 {
-    public class Interop
+    public async ValueTask LoadAsync(CancellationToken cancellationToken = default)
     {
-        private readonly IJSRuntime _jsRuntime;
-
-        public Interop(IJSRuntime jsRuntime)
+        try
         {
-            _jsRuntime = jsRuntime;
+            await jsRuntime.InvokeVoidAsync("Oqtane.Theme.load", cancellationToken);
         }
-
-        public async Task Load()
+        catch (JSDisconnectedException)
         {
-            try
-            {
-                await _jsRuntime.InvokeVoidAsync(
-                    "Oqtane.Theme.load");
-            }
-            catch
-            {
-                // handle exception
-            }
+            // Circuit disconnected gracefully during teardown; no action required.
+        }
+        catch (JSException)
+        {
+            // Propagate or handle JavaScript execution errors specifically
+            // rather than swallowing all unhandled application/runtime exceptions.
+            throw;
         }
     }
 }
