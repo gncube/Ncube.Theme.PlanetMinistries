@@ -1,0 +1,23 @@
+/* Planet Ministries Design Tokens & Theme Boundary */
+.pm-theme {
+    --pm-primary: #1e70bf;
+    --pm-secondary: #72c02c;
+    --pm-text-color: #555555;
+    --pm-heading-color: #333333;
+    --pm-font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    min-height: 100vh;
+    font-family: var(--pm-font-family);
+    color: var(--pm-text-color);
+}
+
+.pm-theme .pm-main-content {
+    min-height: 1px;
+}
