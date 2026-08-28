@@ -1,5 +1,9 @@
-/* Planet Ministries Design Tokens & Theme Boundary */
+/* --------------------------------------------------------------------------
+   Planet Ministries Authoritative Customisation Layer
+   -------------------------------------------------------------------------- */
+
 .pm-theme {
+    /* Design Tokens */
     --pm-primary: #1e70bf;
     --pm-secondary: #72c02c;
     --pm-text-color: #555555;
@@ -20,4 +24,6 @@
 
 .pm-theme .pm-main-content {
     min-height: 1px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
