@@ -2,30 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Version>6.1.2</Version>
-    <Authors>Oqtane Labs Inc</Authors>
-    <Company>Oqtane Labs Inc</Company>
-    <Description>Corporate Theme for Oqtane</Description>
-    <Product>Ncube.Theme.PlanetMinistries</Product>
-    <Copyright>Oqtane Labs Inc</Copyright>
+    <Description>Planet Ministries Theme for Oqtane</Description>
     <AssemblyName>Ncube.Theme.PlanetMinistries.Client.Oqtane</AssemblyName>
-  </PropertyGroup>
-
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.4" />
-	  <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-	  <PackageReference Include="Oqtane.Client" Version="6.1.2" />
-	  <PackageReference Include="Oqtane.Shared" Version="6.1.2" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <!-- there may be other elements here -->
     <BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oqtane.Client" Version="6.1.2" />
+    <PackageReference Include="Oqtane.Shared" Version="6.1.2" />
+  </ItemGroup>
 
 </Project>

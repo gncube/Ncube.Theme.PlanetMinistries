@@ -6,16 +6,9 @@
     <IsPackable Condition="'$(Configuration)' == 'Release'">true</IsPackable>
     <IsPackable Condition="'$(Configuration)' != 'Release'">false</IsPackable>
     
-    <!-- Package Metadata -->
     <PackageId>Ncube.Theme.PlanetMinistries</PackageId>
-    <Version>1.0.0</Version>
-    <Authors>Ncube</Authors>
-    <Company>Ncube</Company>
     <Title>Planet Ministries Theme for Oqtane</Title>
-    <Description>Planet Ministries Theme</Description>
-    <Copyright>Ncube</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/gncube/Ncube.Theme.PlanetMinistries</PackageProjectUrl>
+    <Description>Planet Ministries Theme for Oqtane</Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
@@ -24,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Pack Client DLL & PDB into lib\net9.0 -->
     <None Include="..\Client\bin\$(Configuration)\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll"
           Pack="true"
           PackagePath="lib\net9.0"
@@ -33,8 +25,6 @@
           Pack="true"
           PackagePath="lib\net9.0"
           Visible="false" />
-
-    <!-- Pack Client static web assets into wwwroot -->
     <Content Include="..\Client\wwwroot\**\*.*"
              Pack="true"
              PackagePath="wwwroot"
@@ -42,7 +32,6 @@
              Visible="false" />
   </ItemGroup>
 
-  <!-- Local Framework Deployment (Replaces debug.cmd & release.cmd copy logic) -->
   <Target Name="DeployToLocalOqtane" AfterTargets="Build">
     <PropertyGroup>
       <OqtaneServerDir>..\..\oqtane.framework\Oqtane.Server</OqtaneServerDir>
