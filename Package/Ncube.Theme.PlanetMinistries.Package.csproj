@@ -16,11 +16,13 @@
     <ProjectReference Include="..\Client\Ncube.Theme.PlanetMinistries.Client.csproj" />
   </ItemGroup>
 
+<!--
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Condition="'$(OS)' == 'Windows_NT' And '$(Configuration)' == 'Debug'" Command="debug.cmd" />
     <Exec Condition="'$(OS)' != 'Windows_NT' And '$(Configuration)' == 'Debug'" Command="bash $(ProjectDir)debug.sh" />
     <Exec Condition="'$(OS)' == 'Windows_NT' And '$(Configuration)' == 'Release'" Command="release.cmd" />
     <Exec Condition="'$(OS)' != 'Windows_NT' And '$(Configuration)' == 'Release'" Command="bash $(ProjectDir)release.sh" />
   </Target>
+--> 
 
 </Project>

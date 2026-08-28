@@ -7,7 +7,8 @@ namespace Ncube.Theme.PlanetMinistries
 {
     public class ThemeInfo : ITheme
     {
-        public Models.Theme Theme => new Models.Theme
+        // Fully qualify the return type and instantiation with Oqtane.Models
+        public Oqtane.Models.Theme Theme => new Oqtane.Models.Theme
         {
             Name = "Corporate Theme",
             Version = "6.1.2",
