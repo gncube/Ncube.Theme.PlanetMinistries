@@ -1,9 +1,10 @@
 <Project>
   <PropertyGroup>
+    <!-- Centralized Target Framework -->
+    <TargetFramework>net10.0</TargetFramework>
+
     <!-- Centralized Versioning -->
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <!-- Uncomment VersionSuffix for preview/pre-release builds (e.g., alpha, beta, preview.1) -->
-    <!-- <VersionSuffix>preview.1</VersionSuffix> -->
+    <VersionPrefix>2.0.0</VersionPrefix>
 
     <!-- Common Metadata -->
     <Authors>Gerald Ncube</Authors>

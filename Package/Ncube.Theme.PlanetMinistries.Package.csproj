@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
     <IsPackable Condition="'$(Configuration)' == 'Release'">true</IsPackable>
     <IsPackable Condition="'$(Configuration)' != 'Release'">false</IsPackable>
@@ -17,13 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Client\bin\$(Configuration)\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll"
+    <!-- Pack Client DLL & PDB into lib\net10.0 dynamically -->
+    <None Include="..\Client\bin\$(Configuration)\$(TargetFramework)\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll"
           Pack="true"
-          PackagePath="lib\net9.0"
+          PackagePath="lib\$(TargetFramework)"
           Visible="false" />
-    <None Include="..\Client\bin\$(Configuration)\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb"
+    <None Include="..\Client\bin\$(Configuration)\$(TargetFramework)\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb"
           Pack="true"
-          PackagePath="lib\net9.0"
+          PackagePath="lib\$(TargetFramework)"
           Visible="false" />
     <Content Include="..\Client\wwwroot\**\*.*"
              Pack="true"
@@ -32,23 +32,24 @@
              Visible="false" />
   </ItemGroup>
 
+  <!-- Local Framework Deployment -->
   <Target Name="DeployToLocalOqtane" AfterTargets="Build">
     <PropertyGroup>
       <OqtaneServerDir>..\..\oqtane.framework\Oqtane.Server</OqtaneServerDir>
     </PropertyGroup>
 
     <!-- Debug asset deployment -->
-    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')">
-      <ClientDebugFiles Include="..\Client\bin\Debug\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll;..\Client\bin\Debug\net9.0\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb" />
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\$(TargetFramework)\')">
+      <ClientDebugFiles Include="..\Client\bin\Debug\$(TargetFramework)\Ncube.Theme.PlanetMinistries.Client.Oqtane.dll;..\Client\bin\Debug\$(TargetFramework)\Ncube.Theme.PlanetMinistries.Client.Oqtane.pdb" />
       <ClientWebFiles Include="..\Client\wwwroot\**\*.*" />
     </ItemGroup>
     
-    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')"
+    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\$(TargetFramework)\')"
           SourceFiles="@(ClientDebugFiles)"
-          DestinationFolder="$(OqtaneServerDir)\bin\Debug\net9.0\"
+          DestinationFolder="$(OqtaneServerDir)\bin\Debug\$(TargetFramework)\"
           SkipUnchangedFiles="true" />
     
-    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\net9.0\')"
+    <Copy Condition="'$(Configuration)' == 'Debug' And Exists('$(OqtaneServerDir)\bin\Debug\$(TargetFramework)\')"
           SourceFiles="@(ClientWebFiles)"
           DestinationFolder="$(OqtaneServerDir)\wwwroot\%(RecursiveDir)"
           SkipUnchangedFiles="true" />
