@@ -1,54 +1,46 @@
-@namespace Ncube.Theme.PlanetMinistries
+@namespace Ncube.Theme.PlanetMinistries.Containers
 @inherits ContainerBase
 @inject ISettingService SettingService
+@using Oqtane.Themes.Controls
 
-@if (_layout == "standard")
-{
-    <section data-aos="@_animate">
-        <div class="container">
+<div class="pm-container @(PageState.EditMode ? "pm-container-edit" : string.Empty) mb-4">
+    @if (PageState.EditMode)
+    {
+        <div
+            class="pm-container-admin-bar d-flex justify-content-between align-items-center bg-light border p-2 mb-2 rounded">
+            <span class="fw-semibold small text-dark">
+                <i class="bi bi-box me-1" aria-hidden="true"></i>@ModuleState.Title
+            </span>
             <ModuleActions />
-            @if (_title && ModuleState.Title != "-")
-            {
-                <div class="section-title">
-                    <h2>@ModuleState.Title</h2>
-                </div>
-            }
-            <div class="row">
-                <ModuleInstance />
-            </div>
         </div>
-    </section>
-}
-else
-{
-    <ModuleActions />
-    <ModuleInstance />
-}
+    }
+    else if (_showTitle && !string.IsNullOrEmpty(ModuleState.Title) && ModuleState.Title != "-")
+    {
+        <div class="pm-container-header mb-3">
+            <h3 class="h5 fw-bold text-dark border-bottom pb-2">@ModuleState.Title</h3>
+        </div>
+    }
 
+    <div class="pm-container-content">
+        <ModuleInstance />
+    </div>
+</div>
 
 @code {
-    private string _layout = "";
-    private bool _title = true;
-    private string _animate = "";
+    public override string Name => "Planet Ministries Standard Container";
+
+    private bool _showTitle = true;
 
     protected override void OnParametersSet()
     {
         try
         {
-            _layout = SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Layout", "");
-            if (string.IsNullOrEmpty(_layout))
-            {
-                _layout = SettingService.GetSetting(PageState.Page.Settings, GetType().Namespace + ":Layout", "standard");
-            }
-            if (_layout == "standard")
-            {
-                _title = bool.Parse(SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Title", "true"));
-                _animate = SettingService.GetSetting(ModuleState.Settings, GetType().Namespace + ":Animate", "fade-up");
-            }
+            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries.Containers";
+            _showTitle = bool.Parse(SettingService.GetSetting(ModuleState.Settings, $"{ns}:Title", "true"));
         }
         catch
         {
-            // error loading container settings
+            _showTitle = true;
         }
     }
 }

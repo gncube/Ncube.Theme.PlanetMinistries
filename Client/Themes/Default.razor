@@ -1,19 +1,70 @@
 @namespace Ncube.Theme.PlanetMinistries
 @inherits ThemeBase
 @using Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Themes.Controls
 
-<div class="pm-theme">
+<div class="pm-theme d-flex flex-column min-vh-100">
+    <!-- Utility Top Bar & Oqtane System Controls -->
+    <div class="pm-top-bar py-2 border-bottom bg-light">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="pm-top-contacts d-flex align-items-center gap-3">
+                <span class="small text-muted">
+                    <i class="bi bi-envelope me-1" aria-hidden="true"></i> contact@planetministries.org
+                </span>
+            </div>
+            <div class="pm-top-auth d-flex align-items-center gap-2">
+                <UserProfile />
+                <Login />
+                <ControlPanel />
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
     <PmHeader PageState="@PageState" />
 
-    <main class="pm-main-content">
-        <div class="container">
-            <Pane Name="Content" />
-        </div>
+    <!-- Administrative Pane Zone -->
+    <div class="pm-admin-pane-zone container my-2">
+        <Pane Name="Admin" />
+    </div>
+
+    <!-- Main Content Zone with Default Pane -->
+    <main class="pm-main-content container my-4 flex-grow-1">
+        <Pane Name="Default" />
+        <Pane Name="Content" />
     </main>
-</div>
+
+    <!-- Public Footer -->
+    <footer class="pm-footer bg-dark text-light pt-5 mt-auto" role="contentinfo">
+        <div class="container pb-4">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5 class="text-white mb-3">@(PageState?.Site?.Name ?? "Planet Ministries")</h5>
+                    <p class="small text-muted">Empowering ministries with modern digital platforms.</p>
+                </div>
+                <div class="col-md-6 mb-4 text-md-end">
+                    <h5 class="text-white mb-3">Connect</h5>
+                    <div class="d-flex gap-3 justify-content-md-end fs-5">
+                        <a href="#" class="text-light" aria-label="Facebook"><i class="bi bi-facebook"
+                                                                                    aria-hidden="true"></i></a>
+                            <a href="#" class="text-light" aria-label="X Twitter"><i class="bi bi-twitter-x"
+                                                                                         aria-hidden="true"></i></a>
+                                <a href="#" class="text-light" aria-label="YouTube"><i class="bi bi-youtube"
+                                                                                           aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pm-footer-copyright py-3 border-top border-secondary text-center small text-muted">
+                        &copy; @DateTime.UtcNow.Year @(PageState?.Site?.Name ?? "Planet Ministries"). All rights reserved.
+                    </div>
+                </footer>
+            </div>
+
+<CookieConsent />
 
 @code {
     public override string Name => "Planet Ministries Default Theme";
 
-    public override string Panes => "Content";
+    public override string Panes => "Default,Admin,Content";
 }

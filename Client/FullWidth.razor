@@ -4,10 +4,11 @@
 @inject ISettingService SettingService
 @inject IStringLocalizer<Default> Localizer
 @using Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Themes.Controls
 
 <div class="pm-theme d-flex flex-column min-vh-100">
     <!-- Utility Top Bar -->
-    <div class="pm-top-bar py-2 border-bottom">
+    <div class="pm-top-bar py-2 border-bottom bg-light">
         <div class="container-fluid container-xl d-flex justify-content-between align-items-center">
             <div class="pm-top-contacts d-flex align-items-center gap-3">
                 <span class="small text-muted">
@@ -36,21 +37,30 @@
         </div>
     }
 
-    <div class="pm-billboard-pane-zone">
-        <Pane Name="@ThemeConstants.Panes.HeaderBillboard" />
+    <!-- Admin & Billboard Zones -->
+    <div class="container-fluid container-xl my-2">
+        <Pane Name="Admin" />
     </div>
 
+    <div class="pm-billboard-pane-zone">
+        <Pane Name="HeaderBillboard" />
+    </div>
+
+    <!-- Main Content Zone with Default & MainBody Panes -->
     <main class="pm-main-content container-fluid px-lg-5 py-4 flex-grow-1">
-        <Pane Name="@ThemeConstants.Panes.MainBody" />
+        <Pane Name="Default" />
+        <Pane Name="MainBody" />
+        <Pane Name="Content" />
     </main>
 
     <div class="pm-bottom-features-zone bg-light border-top py-4">
         <div class="container-fluid container-xl">
-            <Pane Name="@ThemeConstants.Panes.BottomFeature" />
+            <Pane Name="BottomFeature" />
         </div>
     </div>
 
-    <footer class="pm-footer pt-5 mt-auto bg-dark text-light">
+    <!-- Footer -->
+    <footer class="pm-footer pt-5 mt-auto bg-dark text-light" role="contentinfo">
         <div class="container-fluid container-xl pb-4">
             @if (!string.IsNullOrEmpty(_footer))
             {
@@ -60,7 +70,7 @@
             {
                 <div class="row">
                     <div class="col-md-6 mb-4">
-                        <h5 class="text-white mb-3">@PageState.Site.Name</h5>
+                        <h5 class="text-white mb-3">@(PageState?.Site?.Name ?? "Planet Ministries")</h5>
                         <p class="small text-muted">Full-width publishing and responsive landing layout.</p>
                     </div>
                     <div class="col-md-6 mb-4 text-md-end">
@@ -77,10 +87,8 @@
                             </div>
                         }
                     </div>
-                    <div class="pm-footer-copyright py-3 border-top border-secondary">
-                        <div class="container-fluid container-xl text-center small text-muted">
-                            @((MarkupString)_footerCopy)
-                        </div>
+                    <div class="pm-footer-copyright py-3 border-top border-secondary text-center small text-muted">
+                        @((MarkupString)_footerCopy)
                     </div>
                 </footer>
             </div>
@@ -89,7 +97,7 @@
 
 @code {
     public override string Name => "Full Width";
-    public override string Panes => ThemeConstants.Panes.FullWidth;
+    public override string Panes => "Default,Admin,HeaderBillboard,MainBody,BottomFeature,Content";
 
     private bool _login = true;
     private bool _search = true;
@@ -125,7 +133,7 @@
         }
         catch
         {
-            _footerCopy = $"&copy; {DateTime.UtcNow.Year} {PageState.Site.Name}. All rights reserved.";
+            _footerCopy = $"&copy; {DateTime.UtcNow.Year} {PageState?.Site?.Name ?? "Planet Ministries"}. All rights reserved.";
         }
     }
 }

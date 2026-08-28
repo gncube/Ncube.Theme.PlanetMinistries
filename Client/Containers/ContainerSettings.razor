@@ -1,67 +1,31 @@
-@namespace Ncube.Theme.PlanetMinistries
+@namespace Ncube.Theme.PlanetMinistries.Containers
 @inherits ModuleBase
 @implements Oqtane.Interfaces.ISettingsControl
 @inject ISettingService SettingService
 @attribute [OqtaneIgnore]
 
 <div class="container">
-    <div class="row mb-1 align-items-center">
-        <Label Class="col-sm-3" For="layout" HelpText="Specify the layout for the module content">Content Layout:</Label>
+    <div class="row mb-3 align-items-center">
+        <Label Class="col-sm-3 fw-semibold" For="displayTitle"
+               HelpText="Specify if the module title should be displayed in the container header">Display Title?</Label>
         <div class="col-sm-9">
-            <select id="layout" class="form-select" @bind="@_layout">
-                <option value="standard">Standard Width</option>
-                <option value="full">Full Width</option>
+            <select id="displayTitle" class="form-select" @bind="@_showTitle">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
             </select>
         </div>
     </div>
-    @if (_layout == "standard")
-    {
-        <div class="row mb-1 align-items-center">
-            <Label Class="col-sm-3" For="title" HelpText="Specify if the module title should be displayed">Display Title?</Label>
-            <div class="col-sm-9">
-                <select id="title" class="form-select" @bind="@_title">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-1 align-items-center">
-            <Label Class="col-sm-3" For="animate" HelpText="Specify the animation for the module content">Animation:</Label>
-            <div class="col-sm-9">
-                <select id="animate" class="form-select" @bind="@_animate">
-                    <option value="none">None</option>
-                    <option value="fade-up">Fade Up</option>
-                    <option value="fade-down">Fade Down</option>
-                    <option value="fade-right">Fade Right</option>
-                    <option value="fade-left">Fade Left</option>
-                    <option value="flip-up">Flip Up</option>
-                    <option value="flip-down">Flip Down</option>
-                    <option value="flip-right">Flip Right</option>
-                    <option value="flip-left">Flip Left</option>
-                    <option value="zoom-in">Zoom In</option>
-                </select>
-            </div>
-        </div>
-    }
 </div>
 
 @code {
-    private string _layout = "standard";
-    private string _title = "true";
-    private string _animate = "fade-up";
+    private string _showTitle = "true";
 
     protected override void OnInitialized()
     {
         try
         {
-            _layout = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerLayoutSetting, string.Empty);
-            _title = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerTitleSetting, "true");
-            _animate = SettingService.GetSetting(ModuleState.Settings, ThemeConstants.ContainerAnimateSetting, "fade-up");
-
-            if (string.IsNullOrEmpty(_layout))
-            {
-                _layout = SettingService.GetSetting(PageState.Page.Settings, ThemeConstants.ContainerLayoutSetting, "standard");
-            }
+            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries.Containers";
+            _showTitle = SettingService.GetSetting(ModuleState.Settings, $"{ns}:Title", "true");
         }
         catch (Exception ex)
         {
@@ -73,10 +37,9 @@
     {
         try
         {
+            var ns = GetType().Namespace ?? "Ncube.Theme.PlanetMinistries.Containers";
             var settings = await SettingService.GetModuleSettingsAsync(ModuleState.ModuleId);
-            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerLayoutSetting, _layout);
-            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerTitleSetting, _title);
-            settings = SettingService.SetSetting(settings, ThemeConstants.ContainerAnimateSetting, _animate);
+            settings = SettingService.SetSetting(settings, $"{ns}:Title", _showTitle);
             await SettingService.UpdateModuleSettingsAsync(settings, ModuleState.ModuleId);
         }
         catch (Exception ex)
