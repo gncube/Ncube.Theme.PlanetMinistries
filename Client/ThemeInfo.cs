@@ -3,18 +3,18 @@ using Oqtane.Models;
 using Oqtane.Themes;
 using Oqtane.Shared;
 
-namespace Oqtane.Theme.Corporate
+namespace Ncube.Theme.PlanetMinistries
 {
     public class ThemeInfo : ITheme
     {
-        public Models.Theme Theme => new Models.Theme
+        public Oqtane.Models.Theme Theme => new()
         {
-            Name = "Corporate Theme",
-            Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate",
-            ThemeSettingsType = "Oqtane.Theme.Corporate.ThemeSettings, Oqtane.Theme.Corporate.Client.Oqtane",
-            ContainerSettingsType = "Oqtane.Theme.Corporate.ContainerSettings, Oqtane.Theme.Corporate.Client.Oqtane",
-            Resources = new List<Resource>()
+            Name = "Planet Ministries Theme",
+            Version = GetType().Assembly.GetName().Version?.ToString(3) ?? "1.0.0",
+            PackageName = "Ncube.Theme.PlanetMinistries",
+            ThemeSettingsType = "Ncube.Theme.PlanetMinistries.ThemeSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
+            ContainerSettingsType = "Ncube.Theme.PlanetMinistries.ContainerSettings, Ncube.Theme.PlanetMinistries.Client.Oqtane",
+            Resources = new List<Resource>
             {
                 // Fonts
                 new Stylesheet("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"),

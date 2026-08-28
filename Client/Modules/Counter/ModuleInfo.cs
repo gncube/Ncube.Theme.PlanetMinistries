@@ -10,7 +10,7 @@ namespace Oqtane.Module.Corporate.Counter
             Name = "Corporate Theme - Counter",
             Description = "Add a Counter section to your Corporate Theme",
             Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate"
+            PackageName = "Ncube.Theme.PlanetMinistries"
         };
     }
 }

@@ -10,7 +10,7 @@ namespace Oqtane.Module.Corporate.Clients
             Name = "Corporate Theme - Clients",
             Description = "Add a Clients section to your Corporate Theme",
             Version = "6.1.2",
-            PackageName = "Oqtane.Theme.Corporate"
+            PackageName = "Ncube.Theme.PlanetMinistries"
         };
     }
 }
