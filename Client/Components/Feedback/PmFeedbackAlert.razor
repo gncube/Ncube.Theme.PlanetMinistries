@@ -1,0 +1,61 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Feedback
+
+@if (_isVisible)
+{
+    <div class="alert @AlertClass d-flex align-items-center justify-content-between shadow-sm @Class" role="alert"
+         aria-live="polite">
+        <div class="d-flex align-items-center">
+            <i class="@IconClass me-2 fs-5" aria-hidden="true"></i>
+            <div>@Message</div>
+        </div>
+        @if (Dismissible)
+        {
+            <button type="button" class="btn-close ms-3" aria-label="Close alert" @onclick="Dismiss"></button>
+        }
+    </div>
+}
+
+@code {
+    public enum AlertVariant
+    {
+        Primary,
+        Success,
+        Warning,
+        Danger,
+        Info
+    }
+
+    [Parameter, EditorRequired]
+    public required string Message { get; set; }
+
+    [Parameter]
+    public AlertVariant Variant { get; set; } = AlertVariant.Info;
+
+    [Parameter]
+    public bool Dismissible { get; set; } = true;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private bool _isVisible = true;
+
+    private string AlertClass => Variant switch
+    {
+        AlertVariant.Primary => "alert-primary",
+        AlertVariant.Success => "alert-success",
+        AlertVariant.Warning => "alert-warning",
+        AlertVariant.Danger => "alert-danger",
+        _ => "alert-info"
+    };
+
+    private string IconClass => Variant switch
+    {
+        AlertVariant.Primary => "bi bi-info-circle-fill text-primary",
+        AlertVariant.Success => "bi bi-check-circle-fill text-success",
+        AlertVariant.Warning => "bi bi-exclamation-triangle-fill text-warning",
+        AlertVariant.Danger => "bi bi-x-circle-fill text-danger",
+        _ => "bi bi-info-circle-fill text-info"
+    };
+
+    private void Dismiss() => _isVisible = false;
+}

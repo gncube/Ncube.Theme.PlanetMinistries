@@ -1,0 +1,101 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Common
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block pm-lightbox-modal" tabindex="-1" role="dialog" aria-modal="true"
+         aria-labelledby="pmLightboxTitle">
+        <div class="modal-backdrop fade show" @onclick="Close"></div>
+        <div class="modal-dialog modal-dialog-centered modal-lg position-relative" style="z-index: 1055;">
+            <div class="modal-content bg-dark text-white border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 id="pmLightboxTitle" class="modal-title fs-6 text-truncate">@CurrentItem?.Title</h5>
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body text-center p-2 position-relative">
+                    @if (CurrentItem is not null)
+                    {
+                        <img src="@CurrentItem.ImageUrl" class="img-fluid rounded" alt="@CurrentItem.AltText"
+                             style="max-height: 70vh; object-fit: contain;" />
+                        @if (!string.IsNullOrWhiteSpace(CurrentItem.Caption))
+                        {
+                            <p class="small text-muted mt-2 mb-0">@CurrentItem.Caption</p>
+                        }
+                    }
+
+                    @if (Images.Count > 1)
+                    {
+                        <button type="button"
+                                class="btn btn-outline-light position-absolute top-50 start-0 translate-middle-y ms-3 rounded-circle p-2"
+                                aria-label="Previous Image" @onclick="Previous">
+                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-outline-light position-absolute top-50 end-0 translate-middle-y me-3 rounded-circle p-2"
+                                aria-label="Next Image" @onclick="Next">
+                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    }
+                </div>
+                @if (Images.Count > 1)
+                {
+                    <div class="modal-footer border-0 pt-0 justify-content-center">
+                        <span class="small text-secondary">@($"{_currentIndex + 1} / {Images.Count}")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<LightboxItemModel> Images { get; set; } = [];
+
+    [Parameter]
+    public int InitialIndex { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    private int _currentIndex;
+
+    private LightboxItemModel? CurrentItem =>
+        Images.Count > 0 && _currentIndex >= 0 && _currentIndex < Images.Count
+            ? Images[_currentIndex]
+            : null;
+
+    protected override void OnParametersSet()
+    {
+        if (IsOpen && InitialIndex >= 0 && InitialIndex < Images.Count)
+        {
+            _currentIndex = InitialIndex;
+        }
+    }
+
+    private async Task Close()
+    {
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    private void Next()
+    {
+        if (Images.Count > 0)
+        {
+            _currentIndex = (_currentIndex + 1) % Images.Count;
+        }
+    }
+
+    private void Previous()
+    {
+        if (Images.Count > 0)
+        {
+            _currentIndex = (_currentIndex - 1 + Images.Count) % Images.Count;
+        }
+    }
+
+    public sealed record LightboxItemModel(string ImageUrl, string AltText, string Title = "", string Caption = "");
+}

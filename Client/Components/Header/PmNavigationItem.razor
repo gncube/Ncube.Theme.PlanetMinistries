@@ -1,0 +1,76 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Models
+
+<li class="pm-navigation-item @(HasChildren ? "dropdown" : string.Empty)">
+    @if (HasChildren)
+    {
+        <button type="button"
+                class="pm-navigation-link pm-navigation-dropdown-toggle btn btn-link p-0 @(IsActive ? "pm-navigation-link-active" : string.Empty)"
+                aria-expanded="@(_isDropdownOpen ? "true" : "false")" aria-haspopup="true" @onclick="ToggleDropdown"
+                @onfocusout="HandleFocusOut">
+            <span>@Page.Name</span>
+            <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i>
+        </button>
+
+        @if (_isDropdownOpen)
+        {
+            <ul class="pm-dropdown-menu list-unstyled position-absolute bg-white shadow-sm py-2" role="menu">
+                @if (Page.IsClickable)
+                {
+                    <li role="none">
+                        <a class="dropdown-item px-3 py-2 @(Page.PageId == CurrentPageId ? "active" : string.Empty)"
+                           href="@Page.Path" role="menuitem" aria-current="@(Page.PageId == CurrentPageId ? "page" : null)">
+                            @Page.Name
+                        </a>
+                    </li>
+                }
+                @foreach (var child in ChildPages)
+                {
+                    <li role="none">
+                        <a class="dropdown-item px-3 py-2 @(child.PageId == CurrentPageId ? "active" : string.Empty)"
+                           href="@child.Path" role="menuitem" aria-current="@(child.PageId == CurrentPageId ? "page" : null)">
+                            @child.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    }
+    else if (Page.IsClickable)
+    {
+        <a class="pm-navigation-link @(IsActive ? "pm-navigation-link-active" : string.Empty)" href="@Page.Path"
+           aria-current="@(IsActive ? "page" : null)">
+            @Page.Name
+        </a>
+    }
+    else
+    {
+        <span class="pm-navigation-text text-muted">@Page.Name</span>
+    }
+</li>
+
+@code {
+    [Parameter, EditorRequired]
+    public required Page Page { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<Page> ChildPages { get; set; } = [];
+
+    [Parameter]
+    public int CurrentPageId { get; set; } = -1;
+
+    private bool _isDropdownOpen;
+
+    private bool HasChildren => ChildPages.Count > 0;
+
+    private bool IsActive =>
+        Page.PageId == CurrentPageId || ChildPages.Any(c => c.PageId == CurrentPageId);
+
+    private void ToggleDropdown() => _isDropdownOpen = !_isDropdownOpen;
+
+    private async Task HandleFocusOut(FocusEventArgs _)
+    {
+        await Task.Delay(150);
+        _isDropdownOpen = false;
+    }
+}

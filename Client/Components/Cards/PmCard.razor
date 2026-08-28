@@ -1,0 +1,89 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Cards
+
+<div class="pm-card d-flex flex-column @Class">
+    @if (!string.IsNullOrWhiteSpace(ImageUrl))
+    {
+        <div class="pm-card-img-wrapper @AspectRatioClass">
+            <img src="@ImageUrl" class="pm-card-img" alt="@(string.IsNullOrWhiteSpace(ImageAlt) ? Title : ImageAlt)"
+                 loading="lazy" />
+        </div>
+    }
+
+    <div class="pm-card-body d-flex flex-column flex-grow-1">
+        @if (!string.IsNullOrWhiteSpace(Category))
+        {
+            <span class="badge bg-light text-primary align-self-start mb-2 border">@Category</span>
+        }
+
+        <h3 class="pm-card-title fs-5 mb-2">@Title</h3>
+
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="pm-card-text text-muted flex-grow-1">@Description</p>
+        }
+
+        @if (ChildContent is not null)
+        {
+            <div class="pm-card-custom-content mb-3">
+                @ChildContent
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(LinkUrl) && !string.IsNullOrWhiteSpace(LinkText))
+        {
+            <div class="mt-auto pt-2">
+                <a href="@LinkUrl" class="btn btn-outline-primary btn-sm stretched-link">
+                    @LinkText <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public enum CardAspectRatio
+    {
+        Ratio16x9,
+        Ratio4x3,
+        Ratio1x1,
+        Ratio21x9
+    }
+
+    [Parameter, EditorRequired]
+    public required string Title { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public string? ImageAlt { get; set; }
+
+    [Parameter]
+    public CardAspectRatio AspectRatio { get; set; } = CardAspectRatio.Ratio16x9;
+
+    [Parameter]
+    public string? Category { get; set; }
+
+    [Parameter]
+    public string? LinkUrl { get; set; }
+
+    [Parameter]
+    public string? LinkText { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string AspectRatioClass => AspectRatio switch
+    {
+        CardAspectRatio.Ratio4x3 => "pm-ratio-4x3",
+        CardAspectRatio.Ratio1x1 => "pm-ratio-1x1",
+        CardAspectRatio.Ratio21x9 => "pm-ratio-21x9",
+        _ => "pm-ratio-16x9"
+    };
+}

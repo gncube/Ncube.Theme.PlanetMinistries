@@ -1,0 +1,79 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Common
+@implements IAsyncDisposable
+
+<span class="pm-animated-counter fw-bold" aria-live="polite" aria-atomic="true">
+    @FormattedValue
+</span>
+
+@code {
+    [Parameter]
+    public int TargetValue { get; set; }
+
+    [Parameter]
+    public int StartValue { get; set; }
+
+    [Parameter]
+    public int DurationMilliseconds { get; set; } = 1000;
+
+    [Parameter]
+    public string? StringFormat { get; set; }
+
+    private int _currentDisplayValue;
+    private CancellationTokenSource? _cts;
+
+    private string FormattedValue =>
+        string.IsNullOrWhiteSpace(StringFormat)
+            ? _currentDisplayValue.ToString()
+            : _currentDisplayValue.ToString(StringFormat);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _currentDisplayValue = StartValue;
+        await StartAnimationAsync();
+    }
+
+    private async Task StartAnimationAsync()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        var token = _cts.Token;
+
+        const int steps = 25;
+        var stepInterval = Math.Max(16, DurationMilliseconds / steps);
+        var difference = TargetValue - StartValue;
+        var stepIncrement = (double)difference / steps;
+
+        try
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(stepInterval));
+            var currentStep = 0;
+
+            while (currentStep < steps && await timer.WaitForNextTickAsync(token))
+            {
+                currentStep++;
+                _currentDisplayValue = (int)Math.Round(StartValue + (stepIncrement * currentStep));
+                await InvokeAsync(StateHasChanged);
+            }
+
+            _currentDisplayValue = TargetValue;
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (OperationCanceledException)
+        {
+            _currentDisplayValue = TargetValue;
+        }
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        if (_cts is not null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+
+        return ValueTask.CompletedTask;
+    }
+}

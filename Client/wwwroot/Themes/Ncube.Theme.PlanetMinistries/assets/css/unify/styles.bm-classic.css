@@ -1,0 +1,86 @@
+/* --------------------------------------------------------------------------
+   Unify v2.6 - styles.bm-classic.css (Sanitised for Oqtane Integration)
+   Global base elements and generic Bootstrap overrides stripped to prevent
+   Oqtane Control Panel pollution. Scoped utilities and namespaces retained.
+   -------------------------------------------------------------------------- */
+
+/* Unify Core Layout Namespaces (g-*) */
+.pm-theme .g-min-height-100vh {
+    min-height: 100vh;
+}
+
+.pm-theme .g-flex-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pm-theme .g-bg-primary {
+    background-color: var(--pm-primary) !important;
+}
+
+.pm-theme .g-bg-secondary {
+    background-color: var(--pm-secondary) !important;
+}
+
+.pm-theme .g-color-primary {
+    color: var(--pm-primary) !important;
+}
+
+.pm-theme .g-color-text {
+    color: var(--pm-text-color) !important;
+}
+
+.pm-theme .g-color-heading {
+    color: var(--pm-heading-color) !important;
+}
+
+/* Unify Custom Component Namespaces (u-*) */
+.pm-theme .u-shadow-v1 {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08);
+}
+
+.pm-theme .u-shadow-v2 {
+    box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
+}
+
+.pm-theme .u-heading-v1 {
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.pm-theme .u-heading-v1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--pm-primary);
+}
+
+/* Element Scoping strictly within .pm-theme */
+.pm-theme h1,
+.pm-theme h2,
+.pm-theme h3,
+.pm-theme h4,
+.pm-theme h5,
+.pm-theme h6 {
+    color: var(--pm-heading-color);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.pm-theme a {
+    color: var(--pm-primary);
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+}
+
+.pm-theme a:hover {
+    color: #15538e;
+}
+
+.pm-theme figure {
+    margin: 0 0 1rem;
+}

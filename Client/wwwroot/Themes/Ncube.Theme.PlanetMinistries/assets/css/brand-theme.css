@@ -11,6 +11,35 @@
     --bs-body-font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
 }
 
+/* Public theme isolation: keep all Unify-era styling scoped to the public shell. */
+.pm-theme,
+.pm-theme body,
+.pm-theme html {
+    font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+    color: var(--u-dark-bg);
+    background-color: #fff;
+}
+
+.pm-theme a {
+    color: var(--u-primary);
+    text-decoration: none;
+}
+
+.pm-theme a:hover,
+.pm-theme a:focus {
+    color: var(--u-primary-hover);
+    text-decoration: none;
+}
+
+.pm-theme .nav-link {
+    color: var(--u-dark-bg);
+}
+
+.pm-theme .nav-link:hover,
+.pm-theme .nav-link:focus {
+    color: var(--u-dark-bg);
+}
+
 /* Header & Utility Top Bar */
 .u-top-bar-custom {
     background-color: #ffffff;

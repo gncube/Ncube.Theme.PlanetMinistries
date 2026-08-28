@@ -1,0 +1,10 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+
+<a class="pm-brand d-inline-flex align-items-center text-decoration-none" href="/" aria-label="@SiteName">
+    <span class="pm-brand-text fw-bold fs-4 text-dark">@SiteName</span>
+</a>
+
+@code {
+    [Parameter]
+    public string SiteName { get; set; } = "Planet Ministries";
+}

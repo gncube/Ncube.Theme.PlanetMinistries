@@ -1,0 +1,81 @@
+@namespace Ncube.Theme.PlanetMinistries.Client.Components.Header
+@using Oqtane.Models
+
+<div id="pm-mobile-navigation"
+     class="pm-mobile-navigation d-lg-none @(IsOpen ? "pm-mobile-navigation-open" : string.Empty)"
+     aria-hidden="@(!IsOpen ? "true" : "false")">
+    <div class="pm-mobile-nav-backdrop" @onclick="Close" aria-hidden="true"></div>
+    <div class="pm-mobile-nav-panel p-4 bg-white d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <span class="fw-bold fs-5">Menu</span>
+            <button type="button" class="btn btn-close" aria-label="Close navigation" @onclick="Close">
+            </button>
+        </div>
+
+        <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+            @if (PageState.Pages is not null)
+            {
+                @foreach (var navItem in RootPages)
+                {
+                    var childList = GetChildPages(navItem.PageId);
+                    <li class="pm-mobile-nav-item">
+                        @if (navItem.IsClickable)
+                        {
+                            <a class="pm-mobile-nav-link text-decoration-none fs-6 @(navItem.PageId == PageState.Page?.PageId ? "pm-navigation-link-active" : "text-dark")"
+                               href="@navItem.Path" aria-current="@(navItem.PageId == PageState.Page?.PageId ? "page" : null)"
+                               @onclick="Close">
+                                @navItem.Name
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="fw-semibold text-muted">@navItem.Name</span>
+                        }
+
+                        @if (childList.Count > 0)
+                        {
+                            <ul class="list-unstyled ps-3 mt-2 d-flex flex-column gap-2 border-start">
+                                @foreach (var childItem in childList)
+                                {
+                                    <li>
+                                        <a class="pm-mobile-nav-link text-decoration-none fs-6 @(childItem.PageId == PageState.Page?.PageId ? "pm-navigation-link-active" : "text-secondary")"
+                                           href="@childItem.Path"
+                                           aria-current="@(childItem.PageId == PageState.Page?.PageId ? "page" : null)"
+                                           @onclick="Close">
+                                            @childItem.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public PageState PageState { get; set; } = default!;
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private IReadOnlyList<Page> RootPages =>
+        PageState.Pages?
+            .Where(p => p.UserId is null && p.ParentId is null && p.IsNavigation)
+            .OrderBy(p => p.Order)
+            .ToList() ?? [];
+
+    private IReadOnlyList<Page> GetChildPages(int parentId) =>
+        PageState.Pages?
+            .Where(p => p.UserId is null && p.ParentId == parentId && p.IsNavigation)
+            .OrderBy(p => p.Order)
+            .ToList() ?? [];
+
+    private async Task Close() => await OnClose.InvokeAsync();
+}

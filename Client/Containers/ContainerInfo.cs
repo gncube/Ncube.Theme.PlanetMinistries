@@ -1,14 +1,15 @@
+namespace Ncube.Theme.PlanetMinistries.Containers;
+
+using Ncube.Theme.PlanetMinistries.Client;
 using Oqtane.Models;
 using Oqtane.Themes;
 
-namespace Ncube.Theme.PlanetMinistries.Containers;
-
 public sealed class ContainerInfo : ITheme
 {
-    public Oqtane.Models.Theme Theme => new()
+    public Theme Theme => new()
     {
         Name = "Planet Ministries Containers",
-        Version = "1.0.1",
+        Version = ThemeVersion.Current,
         ThemeName = typeof(ContainerInfo).Namespace
     };
 }
