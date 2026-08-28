@@ -37,11 +37,6 @@ public sealed class ThemeInfo : ITheme
             new Resource
             {
                 ResourceType = ResourceType.Stylesheet,
-                Url = $"{ThemeConstants.AssetBasePath}/css/styles.bm-classic.css"
-            },
-            new Resource
-            {
-                ResourceType = ResourceType.Stylesheet,
                 Url = $"{ThemeConstants.AssetBasePath}/css/brand-theme.css"
             }
         ]
